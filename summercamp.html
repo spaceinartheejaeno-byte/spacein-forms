@@ -24,24 +24,27 @@
 </iframe>
 
 <script>
+  var frame = document.getElementById('formFrame');
 
-// Apps Script에서 오는 navigate 메시지 수신
-window.addEventListener('message', function(e) {
-  if (e.data && e.data.type === 'resize') {
-    var frame = document.getElementById('formFrame');
-    if (frame) frame.style.height = (parseInt(e.data.height) + 20) + 'px';
-    window.parent.postMessage({ type: 'resize', height: parseInt(e.data.height) + 20 }, '*');
-  }
-  if (e.data && e.data.type === 'navigate') {
-    // iframe src를 enroll 페이지로 교체
-    var frame = document.getElementById('formFrame');
-    if (frame) {
+  window.addEventListener('message', function(e) {
+    // resize 메시지
+    if (e.data && e.data.type === 'resize') {
+      var h = parseInt(e.data.height);
+      if (!isNaN(h) && h > 100) {
+        frame.style.height = (h + 20) + 'px';
+      }
+      // Squarespace로 전달
+      window.parent.postMessage({ type: 'resize', height: h + 20 }, '*');
+    }
+    // navigate 메시지
+    if (e.data && e.data.type === 'navigate') {
       frame.src = e.data.url;
       frame.style.height = '800px';
     }
-  }
-});
- 
+  });
+
+  // 초기 높이
+  frame.style.height = '800px';
 </script>
 </body>
 </html>
