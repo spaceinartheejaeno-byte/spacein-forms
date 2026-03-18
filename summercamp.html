@@ -2,263 +2,234 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Summer Art Camp 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #FAF7F2; --ink: #1C1917; --clay: #C4714A;
-    --clay-light: #E8A882; --sage: #7A9E7E; --warm-gray: #8C8078;
-    --border: #E2DDD8; --white: #FFFFFF; --error: #C0392B; --success: #2E7D5E;
-    --sun: #E8B84B; --sky: #4A90C4;
+  --cream: #FAF7F2;
+  --ink: #1C1917;
+  --clay: #68bdba;
+  --clay-light: #aee5e3;
+  --sage: #1F7A75;
+  --warm-gray: #8C8078;
+  --border: #E2DDD8;
+  --white: #FFFFFF;
+  --error: #C0392B;
+  --success: #1F7A75;
+  --sun: #E8B84B;            /* 썸머캠프 강조색 유지 */
+  --sky: #4A90C4;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif; background: var(--cream);
-    color: var(--ink); min-height: 100vh;
-    display: flex; align-items: flex-start; justify-content: center;
-    padding: 40px 20px 60px;
-  }
-  .container { width: 100%; max-width: 600px; }
-  .header { text-align: center; margin-bottom: 36px; }
-  .studio-label { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay); margin-bottom: 10px; }
-  h1 { font-family: 'DM Serif Display', serif; font-size: 34px; color: var(--ink); line-height: 1.2; margin-bottom: 6px; }
-  h1 em { color: var(--clay); font-style: italic; }
-  .subtitle { font-size: 14px; color: var(--warm-gray); font-weight: 300; }
-
-  /* Progress */
-  .progress-wrap { margin-bottom: 32px; }
-  .progress-steps { display: flex; justify-content: space-between; margin-bottom: 10px; }
-  .progress-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
-  .step-circle {
-    width: 30px; height: 30px; border-radius: 50%;
-    border: 2px solid var(--border); background: var(--white);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 600; color: var(--warm-gray); transition: all 0.3s;
-  }
-  .step-circle.active { border-color: var(--clay); background: var(--clay); color: white; }
-  .step-circle.done   { border-color: var(--sage); background: var(--sage); color: white; }
-  .step-name { font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--warm-gray); text-align: center; }
-  .step-name.active { color: var(--clay); }
-  .step-name.done   { color: var(--sage); }
-  .progress-bar-track { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .progress-bar-fill  { height: 100%; background: linear-gradient(90deg, var(--clay), var(--sun)); border-radius: 2px; transition: width 0.4s ease; }
-
-  /* Card */
-  .card { background: var(--white); border-radius: 16px; padding: 36px; box-shadow: 0 2px 20px rgba(28,25,23,0.06); border: 1px solid var(--border); }
-  .card-title { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 6px; }
-  .card-desc  { font-size: 13px; color: var(--warm-gray); margin-bottom: 28px; line-height: 1.6; }
-  .section-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
-  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--clay); margin-bottom: 14px; }
-
-  /* Fields */
-  .field { margin-bottom: 18px; }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
-  .field-label { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-gray); margin-bottom: 7px; }
-  .required-star { color: var(--clay); }
-  .optional-badge { font-size: 10px; font-weight: 600; background: var(--border); color: var(--warm-gray); padding: 2px 7px; border-radius: 10px; letter-spacing: 0.05em; text-transform: uppercase; margin-left: 6px; vertical-align: middle; }
-  input[type=text], input[type=email], input[type=tel], input[type=password], select, textarea {
-    width: 100%; padding: 11px 13px; border: 1.5px solid var(--border);
-    border-radius: 10px; font-size: 14px; font-family: 'DM Sans', sans-serif;
-    color: var(--ink); background: var(--cream); transition: all 0.2s; appearance: none;
-  }
-  input:focus, select:focus, textarea:focus {
-    outline: none; border-color: var(--clay);
-    box-shadow: 0 0 0 3px rgba(196,113,74,0.12); background: var(--white);
-  }
-  .select-wrap { position: relative; }
-  .select-wrap::after { content: "▾"; position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--warm-gray); pointer-events: none; }
-
-  /* Radio / Checkbox */
-  .radio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
-  .radio-grid.wide { grid-template-columns: 1fr; }
-  .radio-grid.three { grid-template-columns: repeat(3, 1fr); }
-  .radio-item {
-    display: flex; align-items: center; gap: 9px;
-    padding: 10px 13px; border: 1.5px solid var(--border); border-radius: 8px;
-    cursor: pointer; transition: all 0.15s; font-size: 13px; font-weight: 500;
-    color: var(--ink); background: var(--cream); user-select: none;
-  }
-  .radio-item:hover { border-color: var(--clay-light); }
-  .radio-item.selected { border-color: var(--clay); background: rgba(196,113,74,0.07); color: var(--clay); }
-  .radio-item input { display: none; }
-  .radio-dot { width: 15px; height: 15px; border: 1.5px solid var(--border); border-radius: 50%; flex-shrink: 0; transition: all 0.15s; }
-  .radio-item.selected .radio-dot { border-color: var(--clay); background: var(--clay); box-shadow: inset 0 0 0 3px white; }
-  .radio-item-text .rit-label   { font-weight: 600; font-size: 13px; }
-  .radio-item-text .rit-sub { font-size: 11px; opacity: 0.65; margin-top: 2px; }
-
-  .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
-  .checkbox-item {
-    display: flex; align-items: flex-start; gap: 9px;
-    padding: 10px 13px; border: 1.5px solid var(--border); border-radius: 8px;
-    cursor: pointer; transition: all 0.15s; font-size: 13px; font-weight: 500;
-    color: var(--ink); background: var(--cream); user-select: none;
-  }
-  .checkbox-item:hover { border-color: var(--clay-light); }
-  .checkbox-item.checked { border-color: var(--clay); background: rgba(196,113,74,0.07); color: var(--clay); }
-  .checkbox-item input { display: none; }
-  .check-icon { width: 15px; height: 15px; border: 1.5px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 10px; transition: all 0.15s; margin-top: 1px; }
-  .checkbox-item.checked .check-icon { background: var(--clay); border-color: var(--clay); color: white; }
-
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);
+    min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px 60px;}
+  .container{width:100%;max-width:600px;}
+  .header{text-align:center;margin-bottom:36px;}
+  .studio-label{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--clay);margin-bottom:10px;}
+  h1{font-family:'DM Serif Display',serif;font-size:34px;color:var(--ink);line-height:1.2;margin-bottom:6px;}
+  h1 em{color:var(--clay);font-style:italic;}
+  .subtitle{font-size:14px;color:var(--warm-gray);font-weight:300;}
+  .progress-wrap{margin-bottom:32px;}
+  .progress-steps{display:flex;justify-content:space-between;margin-bottom:10px;}
+  .progress-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;}
+  .step-circle{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:var(--white);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--warm-gray);transition:all 0.3s;}
+  .step-circle.active{border-color:var(--clay);background:var(--clay);color:white;}
+  .step-circle.done{border-color:var(--sage);background:var(--sage);color:white;}
+  .step-name{font-size:10px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--warm-gray);text-align:center;}
+  .step-name.active{color:var(--clay);}.step-name.done{color:var(--sage);}
+  .progress-bar-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--clay),var(--sun));border-radius:2px;transition:width 0.4s ease;}
+  .card{background:var(--white);border-radius:16px;padding:36px;box-shadow:0 2px 20px rgba(28,25,23,0.06);border:1px solid var(--border);}
+  .card-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:6px;}
+  .card-desc{font-size:13px;color:var(--warm-gray);margin-bottom:28px;line-height:1.6;}
+  .section-divider{border:none;border-top:1px solid var(--border);margin:24px 0;}
+  .section-label{font-size:11px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--clay);margin-bottom:14px;}
+  .field{margin-bottom:18px;}
+  .field-label{display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;}
+  .required-star{color:var(--clay);}
+  input[type=text],input[type=email],input[type=tel],select,textarea{
+    width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;
+    font-size:16px;font-family:'DM Sans',sans-serif;color:var(--ink);
+    background:var(--cream);transition:all 0.2s;appearance:none;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--clay);
+    box-shadow:0 0 0 3px rgba(196,113,74,0.12);background:var(--white);}
+  .radio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;}
+  .radio-grid.three{grid-template-columns:repeat(3,1fr);}
+  .radio-item{display:flex;align-items:center;gap:9px;padding:10px 13px;
+    border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.15s;
+    font-size:13px;font-weight:500;color:var(--ink);background:var(--cream);user-select:none;}
+  .radio-item:hover{border-color:var(--clay-light);}
+  .radio-item.selected{border-color:var(--clay);background:rgba(196,113,74,0.07);color:var(--clay);}
+  .radio-item input{display:none;}
+  .radio-dot{width:15px;height:15px;border:1.5px solid var(--border);border-radius:50%;flex-shrink:0;transition:all 0.15s;}
+  .radio-item.selected .radio-dot{border-color:var(--clay);background:var(--clay);box-shadow:inset 0 0 0 3px white;}
+  .rit-label{font-weight:600;font-size:13px;}.rit-sub{font-size:11px;opacity:.65;margin-top:2px;}
+  .checkbox-item{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;
+    border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.15s;
+    font-size:13px;font-weight:500;color:var(--ink);background:var(--cream);user-select:none;margin-bottom:8px;}
+  .checkbox-item:hover{border-color:var(--clay-light);}
+  .checkbox-item.checked{border-color:var(--clay);background:rgba(196,113,74,0.07);color:var(--clay);}
+  .checkbox-item input{display:none;}
+  .check-icon{width:15px;height:15px;border:1.5px solid var(--border);border-radius:4px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all 0.15s;margin-top:1px;}
+  .checkbox-item.checked .check-icon{background:var(--clay);border-color:var(--clay);color:white;}
   /* Week cards */
-  .week-card {
-    border: 1.5px solid var(--border); border-radius: 12px;
-    margin-bottom: 12px; overflow: hidden; transition: all 0.2s;
-  }
-  .week-card.selected-week { border-color: var(--clay); }
-  .week-header {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px 16px; cursor: pointer;
-    background: var(--cream); transition: background 0.15s;
-  }
-  .week-header:hover { background: #f5ede6; }
-  .week-card.selected-week .week-header { background: rgba(196,113,74,0.06); }
-  .week-check { width: 20px; height: 20px; border: 1.5px solid var(--border); border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; transition: all 0.15s; }
-  .week-card.selected-week .week-check { background: var(--clay); border-color: var(--clay); color: white; }
-  .week-label { flex: 1; }
-  .week-label .wl-title { font-weight: 600; font-size: 14px; color: var(--ink); }
-  .week-label .wl-dates { font-size: 12px; color: var(--warm-gray); margin-top: 1px; }
-  .week-tuition-preview { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--clay); }
-  .week-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
-  .week-card.selected-week .week-body { display: block; }
-
-  /* Invitation field */
-  .invite-field {
-    background: #FFF8F0; border: 1.5px solid var(--sun);
-    border-radius: 10px; padding: 14px 16px; margin-top: 12px;
-  }
-  .invite-field label { color: #B8860B; }
-  .invite-field input { background: white; }
-  .invite-valid   { color: var(--success); font-size: 12px; margin-top: 6px; font-weight: 600; display: none; }
-  .invite-invalid { color: var(--error);   font-size: 12px; margin-top: 6px; font-weight: 600; display: none; }
-
+  .week-card{border:1.5px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:all 0.2s;}
+  .week-card.selected-week{border-color:var(--clay);}
+  .week-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;background:var(--cream);transition:background 0.15s;}
+  .week-header:hover{background:#e8f9f9;}
+  .week-card.selected-week .week-header{background:rgba(196,113,74,0.06);}
+  .week-check{width:20px;height:20px;border:1.5px solid var(--border);border-radius:5px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;transition:all 0.15s;}
+  .week-card.selected-week .week-check{background:var(--clay);border-color:var(--clay);color:white;}
+  .week-label{flex:1;}
+  .wl-title{font-weight:600;font-size:14px;color:var(--ink);}
+  .wl-dates{font-size:12px;color:var(--warm-gray);margin-top:1px;}
+  .week-tuition-preview{font-family:'DM Serif Display',serif;font-size:16px;color:var(--clay);}
+  .week-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border);}
+  .week-card.selected-week .week-body{display:block;}
+  /* Blender bundle card */
+  .blender-bundle-card{
+    border:2px solid var(--sun);border-radius:12px;padding:18px 20px;
+    background:linear-gradient(135deg,#fffbf0,#faf7f2);margin-bottom:12px;}
+  .blender-bundle-title{font-family:'DM Serif Display',serif;font-size:17px;color:var(--ink);margin-bottom:4px;}
+  .blender-bundle-sub{font-size:12px;color:var(--warm-gray);margin-bottom:14px;line-height:1.5;}
+  .blender-bundle-badge{display:inline-block;background:var(--sun);color:var(--ink);
+    font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;letter-spacing:0.08em;
+    text-transform:uppercase;margin-bottom:10px;}
+  /* Invite field */
+  .invite-field{background:#FFF8F0;border:1.5px solid var(--sun);border-radius:10px;padding:14px 16px;margin-top:10px;}
+  .invite-field .field-label{color:#B8860B;}
+  .invite-field input{background:white;}
+  .invite-valid{color:var(--success);font-size:12px;margin-top:6px;font-weight:600;display:none;}
+  .invite-invalid{color:var(--error);font-size:12px;margin-top:6px;font-weight:600;display:none;}
   /* Tuition summary */
-  .tuition-summary {
-    background: linear-gradient(135deg, #f5ede6, #fdf9f5);
-    border: 1.5px solid var(--clay-light); border-radius: 12px;
-    padding: 18px 20px; margin-top: 20px;
-  }
-  .ts-title { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--clay); margin-bottom: 12px; }
-  .ts-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 4px 0; color: var(--warm-gray); }
-  .ts-row.total { border-top: 1px solid var(--clay-light); margin-top: 8px; padding-top: 12px; }
-  .ts-row.total .ts-label { font-weight: 700; font-size: 14px; color: var(--ink); }
-  .ts-row.total .ts-amount { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--clay); }
-
+  .tuition-summary{background:linear-gradient(135deg,#f5ede6,#fdf9f5);
+    border:1.5px solid var(--clay-light);border-radius:12px;padding:18px 20px;margin-top:20px;}
+  .ts-title{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--clay);margin-bottom:12px;}
+  .ts-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:4px 0;color:var(--warm-gray);}
+  .ts-row.total{border-top:1px solid var(--clay-light);margin-top:8px;padding-top:12px;}
+  .ts-row.total .ts-label{font-weight:700;font-size:14px;color:var(--ink);}
+  .ts-row.total .ts-amount{font-family:'DM Serif Display',serif;font-size:26px;color:var(--clay);}
   /* Waiver */
-  .waiver-block { background: #faf9f7; border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
-  .waiver-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
-  .waiver-text  { font-size: 12.5px; color: #5a5550; line-height: 1.7; }
-  .waiver-text ul { padding-left: 16px; margin-top: 6px; }
-  .waiver-text ul li { margin-bottom: 4px; }
-  .agree-row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px;
-    cursor: pointer; margin-top: 8px; transition: all 0.15s; background: var(--cream);
-  }
-  .agree-row:hover { border-color: var(--clay-light); }
-  .agree-row.checked { border-color: var(--clay); background: rgba(196,113,74,0.05); }
-  .agree-row input { display: none; }
-  .agree-check { width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; transition: all 0.15s; }
-  .agree-row.checked .agree-check { background: var(--clay); border-color: var(--clay); color: white; }
-  .agree-text { font-size: 13px; font-weight: 600; color: var(--ink); }
-
-  /* Signature */
-  .sig-box { border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 16px; background: var(--white); margin-top: 8px; }
-  .sig-box input { border: none; background: transparent; font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); padding: 4px 0; }
-  .sig-box input:focus { box-shadow: none; border-bottom: 2px solid var(--clay); border-radius: 0; }
-  .sig-underline { height: 1px; background: var(--border); margin-top: 6px; }
-  .sig-hint { font-size: 11px; color: var(--warm-gray); margin-top: 6px; font-style: italic; }
-
+  .waiver-block{background:#faf9f7;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:14px;}
+  .waiver-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+  .waiver-text{font-size:12.5px;color:#5a5550;line-height:1.7;}
+  .agree-row{display:flex;align-items:center;gap:10px;padding:11px 14px;
+    border:1.5px solid var(--border);border-radius:8px;cursor:pointer;margin-top:8px;
+    transition:all 0.15s;background:var(--cream);}
+  .agree-row:hover{border-color:var(--clay-light);}
+  .agree-row.checked{border-color:var(--clay);background:rgba(196,113,74,0.05);}
+  .agree-row input{display:none;}
+  .agree-check{width:18px;height:18px;border:1.5px solid var(--border);border-radius:5px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;transition:all 0.15s;}
+  .agree-row.checked .agree-check{background:var(--clay);border-color:var(--clay);color:white;}
+  .agree-text{font-size:13px;font-weight:600;color:var(--ink);}
+  /* Sig */
+  .sig-box{border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;background:var(--white);margin-top:8px;}
+  .sig-box input{border:none;background:transparent;font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink);padding:4px 0;}
+  .sig-box input:focus{box-shadow:none;border-bottom:2px solid var(--clay);border-radius:0;}
+  .sig-underline{height:1px;background:var(--border);margin-top:6px;}
+  .sig-hint{font-size:11px;color:var(--warm-gray);margin-top:6px;font-style:italic;}
   /* Payment info */
-  .payment-info { background: #f7f4f0; border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-top: 10px; font-size: 13px; color: var(--warm-gray); line-height: 1.7; display: none; }
-  .payment-info.visible { display: block; }
-  .payment-info strong { color: var(--ink); }
-
-  /* Welcome banner */
-  .welcome-banner {
-    background: linear-gradient(135deg, #f5ede6, #eef5f0);
-    border: 1px solid var(--clay-light); border-radius: 12px;
-    padding: 16px 20px; margin-bottom: 24px;
-    display: flex; align-items: center; gap: 14px;
+  .payment-info{background:#f7f4f0;border:1px solid var(--border);border-radius:10px;
+    padding:14px 16px;margin-top:10px;font-size:13px;color:var(--warm-gray);line-height:1.7;display:none;}
+  .payment-info.visible{display:block;}
+  .payment-info strong{color:var(--ink);}
+  /* Welcome */
+  .welcome-banner{background:linear-gradient(135deg,#f5ede6,#eef5f0);
+    border:1px solid var(--clay-light);border-radius:12px;
+    padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px;}
+  .welcome-avatar{width:44px;height:44px;background:var(--clay);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'DM Serif Display',serif;font-size:20px;color:white;flex-shrink:0;}
+  .wt-line{font-size:12px;color:var(--warm-gray);margin-bottom:2px;}
+  .wt-name{font-family:'DM Serif Display',serif;font-size:20px;color:var(--ink);}
+  .grade-note{font-size:12px;color:var(--warm-gray);background:#f7f4f0;border-radius:8px;
+    padding:10px 14px;margin-bottom:16px;line-height:1.6;display:none;}
+  /* Enroll link box */
+  .enroll-link-box{background:#f0f7ff;border:1px solid #b3d4f5;border-radius:10px;
+    padding:13px 16px;margin-bottom:20px;font-size:13px;color:#1a4a7a;line-height:1.6;}
+  .enroll-link-box button{background:none;border:none;color:var(--clay);font-weight:700;
+    font-size:13px;cursor:pointer;text-decoration:underline;padding:0;font-family:'DM Sans',sans-serif;}
+  /* Btn */
+  .btn{width:100%;padding:13px;background:var(--clay);color:white;border:none;border-radius:10px;
+    font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;
+    transition:all 0.2s;margin-top:8px;letter-spacing:0.02em;}
+  .btn:hover{background:#B0613E;transform:translateY(-1px);box-shadow:0 4px 12px rgba(196,113,74,0.25);}
+  .btn:active{transform:translateY(0);}
+  .btn:disabled{background:#ccc;cursor:not-allowed;transform:none;box-shadow:none;}
+  .btn-secondary{background:transparent;color:var(--warm-gray);border:1.5px solid var(--border);}
+  .btn-secondary:hover{background:var(--cream);color:var(--ink);box-shadow:none;}
+  .btn-sun{background:linear-gradient(135deg,var(--clay),var(--sun));}
+  .btn-row{display:flex;gap:10px;margin-top:8px;}
+  .btn-row .btn{margin-top:0;}
+  .alert{padding:13px 16px;border-radius:10px;font-size:13px;line-height:1.6;margin-top:16px;display:none;white-space:pre-line;}
+  .alert.error{background:#FFF0EE;color:var(--error);border:1px solid #F5C6C0;display:block;}
+  .success-screen{text-align:center;padding:20px 0;}
+  .big-check{width:64px;height:64px;background:var(--sage);border-radius:50%;display:flex;
+    align-items:center;justify-content:center;font-size:28px;color:white;margin:0 auto 20px;}
+  .success-screen h2{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:12px;}
+  .success-screen p{color:var(--warm-gray);font-size:14px;line-height:1.7;}
+  .sun-badge{display:inline-block;background:linear-gradient(135deg,var(--clay),var(--sun));
+    color:white;font-size:13px;font-weight:600;padding:8px 20px;border-radius:20px;margin:12px 0;}
+  .page{animation:fadeIn 0.3s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  @media(max-width:480px){
+    .card{padding:24px 18px;}h1{font-size:26px;}
+    .radio-grid.three{grid-template-columns:1fr 1fr;}
   }
-  .welcome-avatar { width: 44px; height: 44px; background: var(--clay); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 20px; color: white; flex-shrink: 0; }
-  .welcome-text .wt-line { font-size: 12px; color: var(--warm-gray); margin-bottom: 2px; }
-  .welcome-text .wt-name { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); }
-
-  /* Grade note */
-  .grade-note { font-size: 12px; color: var(--warm-gray); background: #f7f4f0; border-radius: 8px; padding: 10px 14px; margin-top: 8px; line-height: 1.6; }
-  .grade-note strong { color: var(--ink); }
-
-  /* Buttons */
-  .btn { width: 100%; padding: 13px; background: var(--clay); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s; margin-top: 8px; letter-spacing: 0.02em; }
-  .btn:hover { background: #B0613E; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(196,113,74,0.25); }
-  .btn:active { transform: translateY(0); }
-  .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
-  .btn-secondary { background: transparent; color: var(--warm-gray); border: 1.5px solid var(--border); }
-  .btn-secondary:hover { background: var(--cream); color: var(--ink); box-shadow: none; }
-  .btn-row { display: flex; gap: 10px; margin-top: 8px; }
-  .btn-row .btn { margin-top: 0; }
-  .alert { padding: 13px 16px; border-radius: 10px; font-size: 13px; line-height: 1.6; margin-top: 16px; display: none; white-space: pre-line; }
-  .alert.error   { background: #FFF0EE; color: var(--error); border: 1px solid #F5C6C0; display: block; }
-  .alert.success { background: #EEF7F2; color: var(--success); border: 1px solid #B2D9C4; display: block; }
-
-  /* Success */
-  .success-screen { text-align: center; padding: 20px 0; }
-  .success-screen .big-check { width: 64px; height: 64px; background: var(--sage); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; margin: 0 auto 20px; }
-  .success-screen h2 { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 12px; }
-  .success-screen p  { color: var(--warm-gray); font-size: 14px; line-height: 1.7; }
-  .sun-badge { display: inline-block; background: linear-gradient(135deg, var(--clay), var(--sun)); color: white; font-size: 13px; font-weight: 600; padding: 8px 20px; border-radius: 20px; margin: 12px 0; }
-
-  .page { animation: fadeIn 0.3s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .loading-spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--clay); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 40px auto; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @media (max-width: 480px) {
-    .card { padding: 24px 18px; }
-    h1 { font-size: 26px; }
-    .radio-grid.three { grid-template-columns: 1fr 1fr; }
-    .field-row { grid-template-columns: 1fr; }
+  .echange-badge {
+  display: none;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--clay);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-left: 4px;
   }
+  .efield-changed .echange-badge {
+    display: inline;
+  }  
 </style>
 </head>
 <body>
+
+<div id="loadingScreen" style="display:flex;align-items:center;justify-content:center;min-height:60vh;">
+  <div style="text-align:center;padding:60px 20px;">
+    <div style="width:32px;height:32px;border:3px solid #E2DDD8;border-top-color:#68bdba;
+      border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
+    <div style="font-size:14px;color:#8C8078;">Loading camp info…</div>
+  </div>
+</div>
+<div id="appContainer" class="container" style="display:none;">
+
 <div class="container">
   <div class="header">
     <div class="studio-label">spaceIN art studio</div>
     <h1>Summer Art Camp <em>2026</em></h1>
     <p class="subtitle">June 1 – July 31 · Weekly Registration</p>
   </div>
-
-  <!-- Progress -->
   <div class="progress-wrap">
     <div class="progress-steps">
-      <div class="progress-step">
-        <div class="step-circle active" id="sc1">1</div>
-        <div class="step-name active" id="sn1">Verify</div>
-      </div>
-      <div class="progress-step">
-        <div class="step-circle" id="sc2">2</div>
-        <div class="step-name" id="sn2">Camp</div>
-      </div>
-      <div class="progress-step">
-        <div class="step-circle" id="sc3">3</div>
-        <div class="step-name" id="sn3">Payment</div>
-      </div>
-      <div class="progress-step">
-        <div class="step-circle" id="sc4">4</div>
-        <div class="step-name" id="sn4">Waiver</div>
-      </div>
+      <div class="progress-step"><div class="step-circle active" id="sc1">1</div><div class="step-name active" id="sn1">Verify</div></div>
+      <div class="progress-step"><div class="step-circle" id="sc2">2</div><div class="step-name" id="sn2">Camp</div></div>
+      <div class="progress-step"><div class="step-circle" id="sc3">3</div><div class="step-name" id="sn3">Payment</div></div>
+      <div class="progress-step"><div class="step-circle" id="sc4">4</div><div class="step-name" id="sn4">Waiver</div></div>
     </div>
-    <div class="progress-bar-track">
-      <div class="progress-bar-fill" id="progressBar" style="width:12.5%"></div>
-    </div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" id="progressBar" style="width:12.5%"></div></div>
   </div>
 
-  <!-- PAGE 1: Verify -->
+  <!-- PAGE 1 -->
   <div id="page1" class="page">
     <div class="card">
       <div class="card-title">Verify Your Identity</div>
-      <p class="card-desc">Returning students: enter your Student ID and email. New students: use the <a href="?page=enroll" style="color:var(--clay);font-weight:600;">New Student Enrollment form</a> first.</p>
+      <div class="enroll-link-box">
+        🆕 <strong>New student?</strong> Please complete enrollment first, then return here to register for camp.<br>
+        <button onclick="openEnrollForm()">Open New Student Enrollment Form →</button>
+      </div>
+      <p class="card-desc">Returning students: enter your Student ID and registered email.</p>
       <div class="field">
         <label class="field-label">Student ID <span class="required-star">*</span></label>
         <input type="text" id="sid" placeholder="e.g. SIAS-0001" autocomplete="off"/>
@@ -272,24 +243,37 @@
     </div>
   </div>
 
-  <!-- PAGE 2: Camp Selection -->
+  <!-- PAGE 2 -->
   <div id="page2" class="page" style="display:none;">
     <div class="card">
       <div class="welcome-banner">
         <div class="welcome-avatar" id="avatarInitial"></div>
-        <div class="welcome-text">
+        <div class="welcome-text" style="flex:1;">
           <div class="wt-line">Registering camp for</div>
           <div class="wt-name" id="welcomeName"></div>
+          <div id="campStudentInfo" style="font-size:12px;color:var(--warm-gray);margin-top:4px;display:none;"></div>
         </div>
+        <a href="#" onclick="openEditProfile(event)"
+          style="font-size:12px;font-weight:600;color:var(--clay);text-decoration:none;
+          border:1.5px solid var(--clay-light);border-radius:8px;padding:6px 12px;
+          white-space:nowrap;flex-shrink:0;transition:all 0.15s;"
+          onmouseover="this.style.background='rgba(196,113,74,0.08)'"
+          onmouseout="this.style.background='transparent'">
+          ✏️ Edit Profile
+        </a>
       </div>
-
       <div class="card-title">Select Camp Weeks & Classes</div>
       <p class="card-desc">Choose one or more weeks. Each week can have a different class and schedule.</p>
-
       <div class="grade-note" id="gradeNote"></div>
 
-      <hr class="section-divider">
-      <div class="section-label">Available Weeks</div>
+      <!-- Blender Bundle (separate section) -->
+      <div id="blenderBundleSection" style="display:none;">
+        <div class="section-label">Special Program — Weeks 7–9 Only</div>
+        <div id="blenderBundleContainer"></div>
+        <hr class="section-divider">
+      </div>
+
+      <div class="section-label">Weekly Camp Registration</div>
       <div id="weeksContainer"></div>
 
       <div class="tuition-summary" id="tuitionSummary" style="display:none;">
@@ -309,13 +293,11 @@
     </div>
   </div>
 
-  <!-- PAGE 3: Payment -->
+  <!-- PAGE 3 -->
   <div id="page3" class="page" style="display:none;">
     <div class="card">
       <div class="card-title">Payment</div>
-      <p class="card-desc">Select your payment method for the camp registration.</p>
-
-      <!-- Summary recap -->
+      <p class="card-desc">Select your payment method.</p>
       <div class="tuition-summary" style="margin-bottom:24px;">
         <div class="ts-title">Order Summary</div>
         <div id="paymentSummaryRows"></div>
@@ -324,35 +306,15 @@
           <span class="ts-amount" id="paymentGrandTotal">$0</span>
         </div>
       </div>
-
       <div class="section-label">Payment Method</div>
       <div class="radio-grid">
-        <label class="radio-item" onclick="selectPayment('Zelle',this)">
-          <input type="radio" name="payment" value="Zelle"><div class="radio-dot"></div> Zelle
-        </label>
-        <label class="radio-item" onclick="selectPayment('Check',this)">
-          <input type="radio" name="payment" value="Check"><div class="radio-dot"></div> Check
-        </label>
-        <label class="radio-item" onclick="selectPayment('Cash',this)">
-          <input type="radio" name="payment" value="Cash"><div class="radio-dot"></div> Cash
-        </label>
+        <label class="radio-item" onclick="selectPayment('Zelle',this)"><input type="radio" name="payment" value="Zelle"><div class="radio-dot"></div> Zelle</label>
+        <label class="radio-item" onclick="selectPayment('Check',this)"><input type="radio" name="payment" value="Check"><div class="radio-dot"></div> Check</label>
+        <label class="radio-item" onclick="selectPayment('Cash',this)"><input type="radio" name="payment" value="Cash"><div class="radio-dot"></div> Cash</label>
       </div>
-      <div class="payment-info" id="zelleInfo">
-        <strong>Zelle Payment</strong><br>
-        Send to: <strong>Hyunjung Chae</strong><br>
-        Phone: <strong>(510) 299-4922</strong>
-      </div>
-      <div class="payment-info" id="checkInfo">
-        <strong>Check Payment</strong><br>
-        Payable to: <strong>spaceIN art studio</strong><br>
-        Mail or drop off: <strong>4825 Hopyard Rd. F14, Pleasanton, CA 94588</strong>
-      </div>
-      <div class="payment-info" id="cashInfo">
-        <strong>Cash Payment</strong><br>
-        Please bring exact amount to the first day of camp.<br>
-        A receipt will be provided.
-      </div>
-
+      <div class="payment-info" id="zelleInfo"><strong>Zelle Payment</strong><br>Send to: <strong>Hyunjung Chae</strong><br>Phone: <strong>(510) 299-4922</strong></div>
+      <div class="payment-info" id="checkInfo"><strong>Check Payment</strong><br>Payable to: <strong>spaceIN art studio</strong><br>Mail or drop off: <strong>4825 Hopyard Rd. F14, Pleasanton, CA 94588</strong></div>
+      <div class="payment-info" id="cashInfo"><strong>Cash Payment</strong><br>Please bring exact amount to the first day of camp.<br>A receipt will be provided.</div>
       <div id="alert3" class="alert"></div>
       <div class="btn-row" style="margin-top:24px;">
         <button class="btn btn-secondary" onclick="goToPage(2)">← Back</button>
@@ -361,104 +323,53 @@
     </div>
   </div>
 
-  <!-- PAGE 4: Waiver -->
+  <!-- PAGE 4 -->
   <div id="page4" class="page" style="display:none;">
     <div class="card">
       <div class="card-title">Waiver & Agreement</div>
       <p class="card-desc">Please read each policy and indicate your agreement.</p>
-
-      <!-- Late Pickup -->
-      <div class="waiver-block">
-        <div class="waiver-title">Late Pickup Fee Policy</div>
-        <div class="waiver-text">A $5 fee will be charged for every 5 minutes a student is picked up after camp ends.</div>
-      </div>
-      <label class="agree-row" onclick="toggleAgree('agree1',this)">
-        <input type="checkbox" id="agree1"><div class="agree-check"></div>
-        <div class="agree-text">I understand and agree to the Late Pickup Fee Policy.</div>
-      </label>
-
+      <div class="waiver-block"><div class="waiver-title">Late Pickup Fee Policy</div><div class="waiver-text">A $5 fee will be charged for every 5 minutes a student is picked up after camp ends.</div></div>
+      <label class="agree-row" onclick="toggleAgree('agree1',this)"><input type="checkbox" id="agree1"><div class="agree-check"></div><div class="agree-text">I understand and agree to the Late Pickup Fee Policy.</div></label>
       <hr class="section-divider">
-
-      <!-- Make-up -->
-      <div class="waiver-block">
-        <div class="waiver-title">Make-up Class Policy</div>
-        <div class="waiver-text">
-          No make-up classes are offered during Summer Art Camp weeks, for any reason.
-        </div>
-      </div>
-      <label class="agree-row" onclick="toggleAgree('agree2',this)">
-        <input type="checkbox" id="agree2"><div class="agree-check"></div>
-        <div class="agree-text">I understand that no make-up classes are available during Summer Art Camp.</div>
-      </label>
-
+      <div class="waiver-block"><div class="waiver-title">Make-up Class Policy</div><div class="waiver-text">No make-up classes are offered during Summer Art Camp weeks, for any reason.</div></div>
+      <label class="agree-row" onclick="toggleAgree('agree2',this)"><input type="checkbox" id="agree2"><div class="agree-check"></div><div class="agree-text">I understand that no make-up classes are available during Summer Art Camp.</div></label>
       <hr class="section-divider">
-
-      <!-- Return Policy -->
-      <div class="waiver-block">
-        <div class="waiver-title">Return Policy</div>
-        <div class="waiver-text">By submitting this registration form, you acknowledge that all sales are final and no refunds will be issued.</div>
-      </div>
-      <label class="agree-row" onclick="toggleAgree('agree3',this)">
-        <input type="checkbox" id="agree3"><div class="agree-check"></div>
-        <div class="agree-text">I understand and agree to the Return Policy. All sales are final.</div>
-      </label>
-
+      <div class="waiver-block"><div class="waiver-title">Return Policy</div><div class="waiver-text">By submitting this registration form, you acknowledge that all sales are final and no refunds will be issued.</div></div>
+      <label class="agree-row" onclick="toggleAgree('agree3',this)"><input type="checkbox" id="agree3"><div class="agree-check"></div><div class="agree-text">I understand and agree to the Return Policy. All sales are final.</div></label>
       <hr class="section-divider">
-
-      <!-- Student Needs -->
       <div class="waiver-block">
         <div class="waiver-title">Student Needs Disclosure & Liability</div>
         <div class="waiver-text">
-          Parents and guardians are responsible for disclosing any information related to a student's learning, behavioral, emotional, sensory, or developmental needs that may affect their participation in camp.
-          <br><br>
-          The studio is not liable for incidents, disruptions, or safety concerns resulting from undisclosed needs or conditions.
-          <br><br>
+          Parents and guardians are responsible for disclosing any information related to a student's learning, behavioral, emotional, sensory, or developmental needs that may affect their participation in camp.<br><br>
+          The studio is not liable for incidents, disruptions, or safety concerns resulting from undisclosed needs or conditions.<br><br>
           While the studio will make reasonable efforts to support all students, please note that we do not provide specialized or one-on-one accommodations.
         </div>
       </div>
-      <label class="agree-row" onclick="toggleAgree('agree4',this)">
-        <input type="checkbox" id="agree4"><div class="agree-check"></div>
-        <div class="agree-text">I understand and agree to the Student Needs Disclosure & Liability policy.</div>
-      </label>
-
+      <label class="agree-row" onclick="toggleAgree('agree4',this)"><input type="checkbox" id="agree4"><div class="agree-check"></div><div class="agree-text">I understand and agree to the Student Needs Disclosure & Liability policy.</div></label>
       <hr class="section-divider">
-
-      <!-- Photo Release -->
       <div class="section-label">Photo & Media Release</div>
-      <p style="font-size:13px;color:var(--warm-gray);margin-bottom:14px;line-height:1.6;">
-        Do you consent to photos or videos being taken during camp for studio use?
-      </p>
+      <p style="font-size:13px;color:var(--warm-gray);margin-bottom:14px;line-height:1.6;">Do you consent to photos or videos being taken during camp for studio use?</p>
       <div class="radio-grid" id="photoGrid">
-        <label class="radio-item" onclick="selectPhoto('yes',this)">
-          <input type="radio" name="photo"><div class="radio-dot"></div> Yes, I consent
-        </label>
-        <label class="radio-item" onclick="selectPhoto('no',this)">
-          <input type="radio" name="photo"><div class="radio-dot"></div> No, I do not consent
-        </label>
+        <label class="radio-item" onclick="selectPhoto('yes',this)"><input type="radio" name="photo"><div class="radio-dot"></div> Yes, I consent</label>
+        <label class="radio-item" onclick="selectPhoto('no',this)"><input type="radio" name="photo"><div class="radio-dot"></div> No, I do not consent</label>
       </div>
-
       <hr class="section-divider">
-
-      <!-- Signature -->
       <div class="section-label">Digital Signature</div>
-      <p style="font-size:13px;color:var(--warm-gray);margin-bottom:12px;line-height:1.6;">
-        By typing your full name, you confirm that you have read and agreed to all policies above.
-      </p>
+      <p style="font-size:13px;color:var(--warm-gray);margin-bottom:12px;line-height:1.6;">By typing your full name, you confirm that you have read and agreed to all policies above.</p>
       <div class="sig-box">
         <input type="text" id="signature" placeholder="Type your full name"/>
         <div class="sig-underline"></div>
         <div class="sig-hint">Electronic signature · <span id="sigDate"></span></div>
       </div>
-
       <div id="alert4" class="alert"></div>
       <div class="btn-row" style="margin-top:24px;">
         <button class="btn btn-secondary" onclick="goToPage(3)">← Back</button>
-        <button class="btn" id="submitBtn" onclick="submitCamp()">Complete Registration →</button>
+        <button class="btn btn-sun" id="submitBtn" onclick="submitCamp()">Complete Registration →</button>
       </div>
     </div>
   </div>
 
-  <!-- PAGE 5: Success -->
+  <!-- PAGE 5 -->
   <div id="page5" class="page" style="display:none;">
     <div class="card">
       <div class="success-screen">
@@ -466,121 +377,309 @@
         <h2>See you at camp!</h2>
         <div class="sun-badge" id="successWeeks"></div>
         <p id="successMsg"></p>
-        <p style="margin-top:16px;font-size:13px;">
-          A confirmation email has been sent with your registration details.
-        </p>
+        <p style="margin-top:16px;font-size:13px;">A confirmation email has been sent with your registration details.</p>
         <button class="btn" style="margin-top:28px;max-width:300px;margin-left:auto;margin-right:auto;display:block;"
-          onclick="location.reload()">Register Another Student</button>
+          onclick="resetForm()">Register Another Student</button>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- EDIT PROFILE PAGE -->
+  <div id="editPage" style="display:none;" class="page">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <button onclick="closeEditPage()"
+          style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--warm-gray);padding:4px;">←</button>
+        <div>
+          <div style="font-family:'DM Serif Display',serif;font-size:20px;">Edit Profile</div>
+          <div style="font-size:12px;color:var(--warm-gray);margin-top:2px;" id="editSubtitle"></div>
+        </div>
+      </div>
+
+      <div style="font-size:12px;color:var(--warm-gray);margin-bottom:20px;line-height:1.6;
+        background:#f7f4f0;padding:10px 14px;border-radius:8px;">
+        ✏️ Modified fields will be highlighted. Click <strong>Save Changes</strong> when done.
+      </div>
+
+      <!-- Student Info -->
+      <div class="section-label">Student Information</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+        <div id="ewrap_studentFirst">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">
+            First Name <span style="color:var(--clay)">*</span>
+          </label>
+          <input type="text" id="e_studentFirst" oninput="eMarkChanged('ewrap_studentFirst')"/>
+        </div>
+        <div id="ewrap_studentLast">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">
+            Last Name <span style="color:var(--clay)">*</span>
+          </label>
+          <input type="text" id="e_studentLast" oninput="eMarkChanged('ewrap_studentLast')"/>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+        <div id="ewrap_gender">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">
+            Gender <span style="color:var(--clay)">*</span>
+          </label>
+          <div style="position:relative;">
+            <select id="e_gender" onchange="eMarkChanged('ewrap_gender')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--cream);appearance:none;">
+              <option value="">Select…</option>
+              <option>Male</option><option>Female</option>
+              <option>Non-binary</option><option>Prefer not to say</option>
+            </select>
+            <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--warm-gray);pointer-events:none;">▾</span>
+          </div>
+        </div>
+        <div id="ewrap_grade">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">
+            Grade <span style="color:var(--clay)">*</span>
+          </label>
+          <div style="position:relative;">
+            <select id="e_grade" onchange="eMarkChanged('ewrap_grade')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--cream);appearance:none;">
+              <option value="">Select…</option>
+              <option>Kindergarten</option>
+              <option>1st</option><option>2nd</option><option>3rd</option>
+              <option>4th</option><option>5th</option><option>6th</option>
+              <option>7th</option><option>8th</option><option>9th</option>
+              <option>10th</option><option>11th</option><option>12th</option>
+              <option>Adult (18+)</option>
+            </select>
+            <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--warm-gray);pointer-events:none;">▾</span>
+          </div>
+        </div>
+      </div>
+      <div id="ewrap_schoolCity" style="margin-bottom:18px;">
+        <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">
+          School City <span style="color:var(--clay)">*</span><span class="echange-badge"> ● edited</span>
+        </label>
+        <div style="position:relative;">
+          <select id="e_schoolCity" onchange="eMarkChanged('ewrap_schoolCity');eUpdateSchools()" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--cream);appearance:none;">
+            <option value="">Select city…</option>
+            <option>Pleasanton</option><option>Dublin</option>
+            <option>Livermore</option><option>San Ramon</option>
+            <option>Danville</option><option>Other</option>
+          </select>
+          <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--warm-gray);pointer-events:none;">▾</span>
+        </div>
+      </div>
+      <div id="ewrap_schoolName" style="margin-bottom:18px;">
+        <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">
+          School Name <span style="color:var(--clay)">*</span><span class="echange-badge"> ● edited</span>
+        </label>
+        <div style="position:relative;" id="e_schoolSelectWrap">
+          <select id="e_schoolName" onchange="eMarkChanged('ewrap_schoolName')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--cream);appearance:none;">
+            <option value="">Select school…</option>
+          </select>
+          <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--warm-gray);pointer-events:none;">▾</span>
+        </div>
+        <input type="text" id="e_schoolNameOther" placeholder="Enter school name" style="display:none;margin-top:8px;width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;" oninput="eMarkChanged('ewrap_schoolName')"/>
+      </div>
+
+      <hr style="border:none;border-top:1px solid var(--border);margin:22px 0;">
+
+      <!-- Primary Contact -->
+      <div class="section-label">Primary Contact</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+        <div id="ewrap_contactFirst">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">First Name <span style="color:var(--clay)">*</span></label>
+          <input type="text" id="e_contactFirst" oninput="eMarkChanged('ewrap_contactFirst')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;"/>
+        </div>
+        <div id="ewrap_contactLast">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Last Name <span style="color:var(--clay)">*</span></label>
+          <input type="text" id="e_contactLast" oninput="eMarkChanged('ewrap_contactLast')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;"/>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+        <div id="ewrap_relationship">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Relationship <span style="color:var(--clay)">*</span></label>
+          <div style="position:relative;">
+            <select id="e_relationship" onchange="eMarkChanged('ewrap_relationship')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--cream);appearance:none;">
+              <option value="">Select…</option>
+              <option>Mother</option><option>Father</option><option>Guardian</option><option>Other</option>
+            </select>
+            <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--warm-gray);pointer-events:none;">▾</span>
+          </div>
+        </div>
+        <div id="ewrap_contactPhone">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Phone <span style="color:var(--clay)">*</span><span class="echange-badge"> ● edited</span></label>
+          <input type="tel" id="e_contactPhone" oninput="eMarkChanged('ewrap_contactPhone')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;"/>
+        </div>
+      </div>
+      <div id="ewrap_contactEmail" style="margin-bottom:18px;">
+        <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Email <span style="color:var(--clay)">*</span><span class="echange-badge"> ● edited</span></label>
+        <input type="email" id="e_contactEmail" oninput="eMarkChanged('ewrap_contactEmail')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;"/>
+      </div>
+
+      <hr style="border:none;border-top:1px solid var(--border);margin:22px 0;">
+
+      <!-- Additional Contact -->
+      <div class="section-label">Additional Contact <span style="font-size:10px;font-weight:600;background:var(--border);color:var(--warm-gray);padding:2px 7px;border-radius:10px;letter-spacing:0.05em;text-transform:uppercase;margin-left:6px;">Optional</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+        <div id="ewrap_addFirst">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">First Name<span class="echange-badge"> ● edited</span></label>
+          <input type="text" id="e_addFirst" oninput="eMarkChanged('ewrap_addFirst')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;"/>
+        </div>
+        <div id="ewrap_addLast">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Last Name<span class="echange-badge"> ● edited</span></label>
+          <input type="text" id="e_addLast" oninput="eMarkChanged('ewrap_addLast')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;"/>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+        <div id="ewrap_addRelationship">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Relationship<span class="echange-badge"> ● edited</span></label>
+          <div style="position:relative;">
+            <select id="e_addRelationship" onchange="eMarkChanged('ewrap_addRelationship')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--cream);appearance:none;">
+              <option value="">Select…</option>
+              <option>Mother</option><option>Father</option><option>Guardian</option><option>Other</option>
+            </select>
+            <span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--warm-gray);pointer-events:none;">▾</span>
+          </div>
+        </div>
+        <div id="ewrap_addPhone">
+          <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Phone<span class="echange-badge"> ● edited</span></label>
+          <input type="tel" id="e_addPhone" oninput="eMarkChanged('ewrap_addPhone')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;"/>
+        </div>
+      </div>
+      <div id="ewrap_addEmail" style="margin-bottom:18px;">
+        <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Email<span class="echange-badge"> ● edited</span></label>
+        <input type="email" id="e_addEmail" oninput="eMarkChanged('ewrap_addEmail')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;"/>
+      </div>
+
+      <hr style="border:none;border-top:1px solid var(--border);margin:22px 0;">
+
+      <!-- Health -->
+      <div class="section-label">Health & Support <span style="font-size:10px;font-weight:600;background:var(--border);color:var(--warm-gray);padding:2px 7px;border-radius:10px;letter-spacing:0.05em;text-transform:uppercase;margin-left:6px;">Optional</span></div>
+      <div id="ewrap_medicalInfo" style="margin-bottom:18px;">
+        <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Medical & Allergy Info<span class="echange-badge"> ● edited</span></label>
+        <textarea id="e_medicalInfo" oninput="eMarkChanged('ewrap_medicalInfo')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;resize:vertical;min-height:80px;"></textarea>
+      </div>
+      <div id="ewrap_studentNeeds" style="margin-bottom:18px;">
+        <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Student Needs<span class="echange-badge"> ● edited</span></label>
+        <textarea id="e_studentNeeds" oninput="eMarkChanged('ewrap_studentNeeds')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;resize:vertical;min-height:80px;"></textarea>
+      </div>
+      <div id="ewrap_comments" style="margin-bottom:18px;">
+        <label style="display:block;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:7px;">Comments <span style="font-size:10px;font-weight:600;background:var(--border);color:var(--warm-gray);padding:2px 7px;border-radius:10px;letter-spacing:0.05em;text-transform:uppercase;margin-left:6px;">Optional</span><span class="echange-badge"> ● edited</span></label>
+        <textarea id="e_comments" oninput="eMarkChanged('ewrap_comments')" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;resize:vertical;min-height:80px;"></textarea>
+      </div>
+
+      <div id="editAlert" class="alert"></div>
+      <div style="display:flex;gap:10px;margin-top:8px;">
+        <button class="btn btn-secondary" onclick="closeEditPage()" style="flex:1;">← Cancel</button>
+        <button class="btn" id="editSaveBtn" onclick="saveEditProfile()" style="flex:2;">Save Changes →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT SUCCESS PAGE -->
+  <div id="editSuccessPage" style="display:none;" class="page">
+    <div class="card">
+      <div style="text-align:center;padding:20px 0;">
+        <div style="width:64px;height:64px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;margin:0 auto 20px;">✓</div>
+        <h2 style="font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:10px;">Profile Updated!</h2>
+        <p style="color:var(--warm-gray);font-size:14px;line-height:1.6;" id="editSuccessMsg"></p>
+        <button class="btn" style="margin-top:24px;max-width:300px;margin-left:auto;margin-right:auto;display:block;"
+          onclick="closeEditSuccess()">← Back to Registration</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- #appContainer -->
 
 <script>
-// ─── Camp Data ────────────────────────────────────────────────
-const WEEKS = [
-  {id:'w1', label:'Week 1', dates:'Jun 1 – Jun 5'},
-  {id:'w2', label:'Week 2', dates:'Jun 8 – Jun 12'},
-  {id:'w3', label:'Week 3', dates:'Jun 15 – Jun 19'},
-  {id:'w4', label:'Week 4', dates:'Jun 22 – Jun 26'},
-  {id:'w5', label:'Week 5', dates:'Jun 29 – Jul 3'},
-  {id:'w6', label:'Week 6', dates:'Jul 6 – Jul 10'},
-  {id:'w7', label:'Week 7', dates:'Jul 13 – Jul 17'},
-  {id:'w8', label:'Week 8', dates:'Jul 20 – Jul 24'},
-  {id:'w9', label:'Week 9', dates:'Jul 27 – Jul 31'}
-];
+// ─── Config (Sheets에서 로드) ─────────────────────────────────
+let WEEKS           = [];
+let CAMP_CLASSES    = [];
+let PP_ADDONS       = [];
+let BLENDER_BUNDLES = [];
+let INVITE_CODE     = '';
 
-const CAMP_CLASSES = [
-  {
-    id: 'studio',
-    name: 'Studio Art Camp',
-    time: '9:30am – 12:00pm',
-    gradeMin: 1,
-    schedules: [
-      {id:'5day', label:'5-Day', sub:'Mon – Fri', price:400},
-      {id:'3day', label:'3-Day', sub:'Mon, Wed, Fri', price:240},
-      {id:'2day', label:'2-Day', sub:'Tue, Thu', price:160}
-    ]
-  },
-  {
-    id: 'digital',
-    name: 'Digital Art Camp',
-    time: '9:30am – 12:00pm',
-    gradeMin: 4,
-    schedules: [
-      {id:'5day', label:'5-Day', sub:'Mon – Fri', price:400}
-    ]
-  },
-  {
-    id: 'pp',
-    name: 'Portfolio Prep.',
-    time: '2:00pm – 6:00pm',
-    gradeMin: 7,
-    schedules: [
-      {id:'5day', label:'5-Day', sub:'Mon – Fri', price:800},
-      {id:'3day', label:'3-Day', sub:'Mon, Wed, Fri', price:480},
-      {id:'2day', label:'2-Day', sub:'Tue, Thu', price:320}
-    ],
-    addons: [
-      {
-        id:'pp_digital',
-        name:'+ Digital Art',
-        time:'2:00pm – 4:00pm or 4:00pm – 6:00pm',
-        sub:'Mon, Wed only · Invitation Only',
-        gradeMin: 10,
-        inviteRequired: true
-      },
-      {
-        id:'pp_modeling',
-        name:'+ Blender Modeling',
-        time:'2:00pm – 4:00pm',
-        sub:'Tue, Thu only · Weeks 7–9 only · Invitation Only',
-        gradeMin: 10,
-        inviteRequired: true,
-        weeksOnly: [6,7,8] // 0-indexed
-      },
-      {
-        id:'pp_animation',
-        name:'+ Blender Animation',
-        time:'4:00pm – 6:00pm',
-        sub:'Tue, Thu only · Weeks 7–9 only · Invitation Only',
-        gradeMin: 10,
-        inviteRequired: true,
-        weeksOnly: [6,7,8]
+function loadCampConfig() {
+  google.script.run
+    .withSuccessHandler(function(cfg) {
+      if (cfg.error) {
+        document.getElementById('loadingScreen').innerHTML =
+          '<div style="color:#C0392B;text-align:center;padding:40px;">' + cfg.error + '</div>';
+        return;
       }
-    ]
-  }
-];
 
-// Invitation code (원장님이 설정)
-const INVITE_CODE = 'SPACE2026PP';
+      // Camp info
+      INVITE_CODE = cfg.campInfo.invite_code || '';
+      const campName = cfg.campInfo.camp_name || 'Summer Art Camp';
+      const campSub  = cfg.campInfo.camp_subtitle || '';
+      document.querySelector('h1').innerHTML = campName.replace('2026','<em>2026</em>');
+      document.querySelector('.subtitle').textContent = campSub + ' · Weekly Registration';
 
-// Grade order for eligibility
+      // Weeks
+      WEEKS = cfg.weeks.map(function(w) {
+        return { id: w.week_label.toLowerCase().replace(/\s/g,''), label: w.week_label, dates: w.dates };
+      });
+
+      // Classes
+      CAMP_CLASSES = cfg.classes.map(function(cls) {
+        return {
+          id:       cls.class_id,
+          name:     cls.class_name,
+          time:     cls.time,
+          gradeMin: GRADE_ORDER.indexOf(cls.grade_min),
+          schedules: cfg.schedules
+            .filter(function(s) { return s.class_id === cls.class_id; })
+            .map(function(s) {
+              return { id: s.schedule_id, label: s.label, sub: s.sub, price: Number(s.price) };
+            })
+        };
+      });
+
+      // PP Addons
+      PP_ADDONS = cfg.addons.map(function(a) {
+        return {
+          id:       a.addon_id,
+          name:     a.addon_name,
+          time:     a.time,
+          sub:      a.sub,
+          gradeMin: GRADE_ORDER.indexOf(a.grade_min)
+        };
+      });
+
+      // Blender Bundles
+      BLENDER_BUNDLES = cfg.bundles.map(function(b) {
+        return {
+          id:       b.bundle_id,
+          name:     b.bundle_name,
+          time:     b.time,
+          note:     b.note,
+          gradeMin: GRADE_ORDER.indexOf(b.grade_min)
+        };
+      });
+
+      // 로딩 완료
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('appContainer').style.display  = 'block';
+    })
+    .withFailureHandler(function() {
+      document.getElementById('loadingScreen').innerHTML =
+        '<div style="color:#C0392B;text-align:center;padding:40px;">Failed to load camp configuration. Please refresh.</div>';
+    })
+    .getSummerCampConfig();
+}
+
+window.addEventListener('load', loadCampConfig);
 const GRADE_ORDER = ['Pre-K','Kindergarten','1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th','11th','12th','Adult (18+)'];
 
 // ─── State ────────────────────────────────────────────────────
-let verifiedData  = null;
-let studentGrade  = '';
-let gradeIndex    = -1;
-let weekSelections = {}; // { w1: { classId, scheduleId, addons:[], inviteVerified } }
+let verifiedData   = null;
+let studentGrade   = '';
+let gradeIndex     = -1;
+let weekSelections = {}; // { w1: { classId, scheduleId, addons:[] } }
+let blenderBundles = {}; // { bb_modeling: { inviteVerified: bool } }
 let selectedPayment = null;
 let photoConsent    = null;
 
 // ─── Helpers ──────────────────────────────────────────────────
-function gradeToIndex(g) { return GRADE_ORDER.indexOf(g); }
-
-function getGradeMinLabel(min) {
-  const labels = {1:'1st grade & up',4:'4th grade & up',7:'7th grade & up',10:'10th grade & up'};
-  return labels[min] || '';
-}
-
 function showAlert(id, type, msg) {
   const el = document.getElementById(id);
   el.className = 'alert ' + type; el.textContent = msg;
 }
-
-function isWeekSelected(wid) { return !!weekSelections[wid]; }
-
 function calcWeekTuition(wid) {
   const sel = weekSelections[wid];
   if (!sel || !sel.classId || !sel.scheduleId) return 0;
@@ -589,38 +688,23 @@ function calcWeekTuition(wid) {
   const sch = cls.schedules.find(s => s.id === sel.scheduleId);
   return sch ? sch.price : 0;
 }
-
 function calcGrandTotal() {
   return Object.keys(weekSelections).reduce((sum, wid) => sum + calcWeekTuition(wid), 0);
 }
-
-function updateTuitionSummary() {
-  const container = document.getElementById('tuitionRows');
-  const grandEl   = document.getElementById('grandTotal');
-  const summary   = document.getElementById('tuitionSummary');
-
-  const selectedWeeks = WEEKS.filter(w => isWeekSelected(w.id));
-  if (selectedWeeks.length === 0) { summary.style.display = 'none'; return; }
-  summary.style.display = 'block';
-
-  container.innerHTML = selectedWeeks.map(w => {
-    const sel = weekSelections[w.id];
-    const cls = CAMP_CLASSES.find(c => c.id === sel.classId);
-    const sch = cls && cls.schedules.find(s => s.id === sel.scheduleId);
-    const amt = sch ? sch.price : 0;
-    const addonsStr = sel.addons && sel.addons.length
-      ? ' <span style="font-size:11px;color:var(--clay);">+' + sel.addons.map(a => a.replace('pp_','')).join(', ') + '</span>' : '';
-    return `<div class="ts-row">
-      <span class="ts-label">${w.label} (${w.dates}) — ${cls ? cls.name : ''} ${sch ? sch.label : ''}${addonsStr}</span>
-      <span style="font-weight:600;color:var(--ink);">$${amt}</span>
-    </div>`;
-  }).join('');
-
-  const grand = calcGrandTotal();
-  grandEl.textContent = '$' + grand;
+function getGradeMinLabel(min) {
+  return {1:'1st grade & up',4:'4th grade & up',7:'7th grade & up',10:'10th grade & up'}[min] || '';
 }
 
-// ─── Page Navigation ──────────────────────────────────────────
+// ─── Open Enrollment Form (new tab via google.script) ─────────
+function openEnrollForm() {
+  google.script.run
+    .withSuccessHandler(function(url) {
+      window.open(url, '_blank');
+    })
+    .getEnrollmentUrl();
+}
+
+// ─── Page Nav ─────────────────────────────────────────────────
 function goToPage(n) {
   [1,2,3,4,5].forEach(i => {
     document.getElementById('page'+i).style.display = i===n ? 'block':'none';
@@ -628,17 +712,25 @@ function goToPage(n) {
   updateProgress(n);
   window.scrollTo(0,0);
 }
-
 function updateProgress(n) {
-  const pct = [12.5, 37.5, 62.5, 87.5, 100];
-  document.getElementById('progressBar').style.width = pct[n-1] + '%';
+  document.getElementById('progressBar').style.width = [12.5,37.5,62.5,87.5,100][n-1] + '%';
   [1,2,3,4].forEach(i => {
-    const c = document.getElementById('sc'+i);
-    const s = document.getElementById('sn'+i);
-    if (i < n) { c.className='step-circle done'; c.textContent='✓'; s.className='step-name done'; }
+    const c = document.getElementById('sc'+i), s = document.getElementById('sn'+i);
+    if (i<n) { c.className='step-circle done'; c.textContent='✓'; s.className='step-name done'; }
     else if (i===n) { c.className='step-circle active'; c.textContent=i; s.className='step-name active'; }
     else { c.className='step-circle'; c.textContent=i; s.className='step-name'; }
   });
+}
+
+// ─── Reset (Register Another) ────────────────────────────────
+function resetForm() {
+  verifiedData = null; studentGrade = ''; gradeIndex = -1;
+  weekSelections = {}; blenderBundles = {};
+  selectedPayment = null; photoConsent = null;
+  document.getElementById('sid').value   = '';
+  document.getElementById('email').value = '';
+  document.getElementById('alert1').className = 'alert';
+  goToPage(1);
 }
 
 // ─── Page 1: Verify ───────────────────────────────────────────
@@ -647,19 +739,15 @@ function verifyStudent() {
   const email = document.getElementById('email').value.trim();
   const btn   = document.getElementById('verifyBtn');
   document.getElementById('alert1').className = 'alert';
-
   if (!sid || !email) { showAlert('alert1','error','Please enter both Student ID and email.'); return; }
-
   btn.disabled = true; btn.textContent = 'Verifying…';
-
   google.script.run
     .withSuccessHandler(function(res) {
       btn.disabled = false; btn.textContent = 'Verify & Continue →';
       if (res.success) {
-        verifiedData = res;
-        goToPage2();
+        verifiedData = res; goToPage2();
       } else if (res.blocked) {
-        showAlert('alert1','error', '🔒 Too many failed attempts.\n\nPlease try again after ' + res.unlockTime + ' (in ' + res.remainingMin + ' minutes).');
+        showAlert('alert1','error','🔒 Too many failed attempts.\n\nPlease try again after ' + res.unlockTime + ' (in ' + res.remainingMin + ' minutes).');
         btn.disabled = true;
       } else {
         const left = res.attemptsLeft || 0;
@@ -676,37 +764,149 @@ function verifyStudent() {
     .lookupStudent(sid, email);
 }
 
-// ─── Page 2: Camp Selection ───────────────────────────────────
+// ─── Page 2: Build ────────────────────────────────────────────
 function goToPage2() {
-  // Set welcome banner
   const name = verifiedData.name || '';
   document.getElementById('avatarInitial').textContent = name.charAt(0).toUpperCase();
   document.getElementById('welcomeName').textContent   = name;
-
-  // Grade note
   studentGrade = verifiedData.grade || '';
-  gradeIndex   = gradeToIndex(studentGrade);
+  gradeIndex   = GRADE_ORDER.indexOf(studentGrade);
+
   const gradeEl = document.getElementById('gradeNote');
   if (studentGrade) {
-    gradeEl.innerHTML = '🎓 Current grade: <strong>' + studentGrade + '</strong> · Classes shown are based on grade eligibility (Fall 2026).';
+    gradeEl.innerHTML = '🎓 Current grade: <strong>' + studentGrade + '</strong> — classes shown are based on grade eligibility (Fall 2026).';
     gradeEl.style.display = 'block';
   }
 
+  // grade + 마지막 수업 표시
+  const infoLines = [];
+  if (verifiedData.grade)     infoLines.push('Grade: ' + verifiedData.grade);
+  if (verifiedData.lastClass) infoLines.push('Last class: ' + verifiedData.lastClass + (verifiedData.lastMonth ? ' (' + verifiedData.lastMonth + ')' : ''));
+  const infoEl = document.getElementById('campStudentInfo');
+  if (infoEl) {
+    infoEl.textContent = infoLines.join('  ·  ');
+    infoEl.style.display = infoLines.length ? 'block' : 'none';
+  }
+
+  buildBlenderBundles();
   buildWeeks();
   goToPage(2);
 }
 
+// ─── Blender Bundles Section ──────────────────────────────────
+function buildBlenderBundles() {
+  const section   = document.getElementById('blenderBundleSection');
+  const container = document.getElementById('blenderBundleContainer');
+  container.innerHTML = '';
+
+  const eligible = BLENDER_BUNDLES.filter(b =>
+    verifiedData.gradeException || gradeIndex < 0 || gradeIndex >= b.gradeMin
+  );
+
+  if (eligible.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  eligible.forEach(function(bundle) {
+    const card = document.createElement('div');
+    card.className = 'blender-bundle-card';
+    card.id = 'bbcard_' + bundle.id;
+
+    card.innerHTML = `
+      <div class="blender-bundle-badge">Weeks 7–9 · All 3 Weeks Required</div>
+      <div class="blender-bundle-title">${bundle.name}</div>
+      <div class="blender-bundle-sub">${bundle.time}<br>${bundle.note}</div>
+      <label class="checkbox-item" id="bbcheck_${bundle.id}" onclick="toggleBlenderBundle('${bundle.id}', this)">
+        <input type="checkbox"><div class="check-icon"></div>
+        <div>
+          <div style="font-weight:600">Register for all 3 weeks (Week 7, 8 & 9)</div>
+          <div style="font-size:11px;opacity:.65;margin-top:2px;">Tuition included in Portfolio Prep.</div>
+        </div>
+      </label>
+      <div class="invite-field" id="bbinv_${bundle.id}" style="display:none;">
+        <label class="field-label">🔑 Invitation Code Required</label>
+        <input type="text" id="bbcode_${bundle.id}" placeholder="Enter invitation code"
+          autocomplete="off" oninput="checkBundleCode('${bundle.id}')"/>
+        <div class="invite-valid"   id="bbok_${bundle.id}">✓ Code accepted — Weeks 7, 8 & 9 added</div>
+        <div class="invite-invalid" id="bbno_${bundle.id}">✗ Invalid invitation code</div>
+      </div>`;
+
+    container.appendChild(card);
+  });
+}
+
+function toggleBlenderBundle(bid, el) {
+  el.classList.toggle('checked');
+  el.querySelector('.check-icon').textContent = el.classList.contains('checked') ? '✓' : '';
+  const invWrap = document.getElementById('bbinv_' + bid);
+
+  if (el.classList.contains('checked')) {
+    invWrap.style.display = 'block';
+    // Week 7-9 자동 선택 + PP 클래스 펼치기
+    autoSelectPPWeeks();
+  } else {
+    invWrap.style.display = 'none';
+    document.getElementById('bbcode_' + bid).value = '';
+    document.getElementById('bbok_' + bid).style.display  = 'none';
+    document.getElementById('bbno_' + bid).style.display  = 'none';
+    delete blenderBundles[bid];
+    updateTuitionSummary();
+  }
+}
+
+function autoSelectPPWeeks() {
+  ['w7','w8','w9'].forEach(function(wid, wi) {
+    const card = document.getElementById('wcard_' + wid);
+    if (!card) return;
+
+    // 이미 선택된 경우 스킵
+    if (!card.classList.contains('selected-week')) {
+      card.classList.add('selected-week');
+      document.getElementById('wcheck_' + wid).textContent = '✓';
+      weekSelections[wid] = { classId: null, scheduleId: null, addons: [] };
+      buildWeekClasses(wid, 6 + wi); // wi=0→w7(index6), wi=1→w8(7), wi=2→w9(8)
+    }
+
+    // PP 클래스 자동 선택
+    const ppBtn = document.getElementById('wcls_' + wid + '_pp');
+    if (ppBtn && weekSelections[wid].classId !== 'pp') {
+      ppBtn.classList.add('selected');
+      weekSelections[wid].classId    = 'pp';
+      weekSelections[wid].scheduleId = null;
+      weekSelections[wid].addons     = [];
+      buildWeekSchedule(wid, 6 + wi, 'pp');
+    }
+  });
+  updateTuitionSummary();
+}
+
+function checkBundleCode(bid) {
+  const code  = document.getElementById('bbcode_' + bid).value.trim().toUpperCase();
+  const okEl  = document.getElementById('bbok_' + bid);
+  const noEl  = document.getElementById('bbno_' + bid);
+
+  if (code === INVITE_CODE) {
+    okEl.style.display = 'block'; noEl.style.display = 'none';
+    blenderBundles[bid] = { inviteVerified: true };
+    updateTuitionSummary();
+  } else if (code.length >= 6) {
+    noEl.style.display = 'block'; okEl.style.display = 'none';
+    delete blenderBundles[bid];
+    updateTuitionSummary();
+  } else {
+    okEl.style.display = 'none'; noEl.style.display = 'none';
+  }
+}
+
+// ─── Week Cards ───────────────────────────────────────────────
 function buildWeeks() {
   const container = document.getElementById('weeksContainer');
   container.innerHTML = '';
-
   WEEKS.forEach(function(week, wi) {
     const card = document.createElement('div');
     card.className = 'week-card';
     card.id = 'wcard_' + week.id;
-
     card.innerHTML = `
-      <div class="week-header" onclick="toggleWeek('${week.id}', ${wi})">
+      <div class="week-header" onclick="toggleWeek('${week.id}',${wi})">
         <div class="week-check" id="wcheck_${week.id}"></div>
         <div class="week-label">
           <div class="wl-title">${week.label}</div>
@@ -718,28 +918,26 @@ function buildWeeks() {
         <div style="margin-top:14px;">
           <div class="section-label">Select Class</div>
           <div id="wclasses_${week.id}"></div>
-          <div id="wschedule_${week.id}" style="margin-top:14px;display:none;"></div>
-          <div id="waddons_${week.id}" style="margin-top:14px;display:none;"></div>
+          <div id="wschedule_${week.id}" style="display:none;margin-top:14px;"></div>
+          <div id="waddons_${week.id}"   style="display:none;margin-top:14px;"></div>
         </div>
       </div>`;
-
     container.appendChild(card);
   });
 }
 
 function toggleWeek(wid, wi) {
   const card = document.getElementById('wcard_' + wid);
-  const isSelected = card.classList.contains('selected-week');
-
-  if (isSelected) {
+  const isSel = card.classList.contains('selected-week');
+  if (isSel) {
     card.classList.remove('selected-week');
     document.getElementById('wcheck_' + wid).textContent = '';
-    delete weekSelections[wid];
     document.getElementById('wprice_' + wid).textContent = '';
+    delete weekSelections[wid];
   } else {
     card.classList.add('selected-week');
     document.getElementById('wcheck_' + wid).textContent = '✓';
-    weekSelections[wid] = { classId: null, scheduleId: null, addons: [], inviteVerified: false };
+    weekSelections[wid] = { classId:null, scheduleId:null, addons:[] };
     buildWeekClasses(wid, wi);
   }
   updateTuitionSummary();
@@ -750,159 +948,127 @@ function buildWeekClasses(wid, wi) {
   container.innerHTML = '';
   const grid = document.createElement('div');
   grid.className = 'radio-grid';
-
   CAMP_CLASSES.forEach(function(cls) {
-    // Grade eligibility check
-    const eligible = gradeIndex < 0 || gradeIndex >= cls.gradeMin;
-    if (!eligible) return;
+    if (!verifiedData.gradeException && gradeIndex >= 0 && cls.gradeMin >= 0 && gradeIndex < cls.gradeMin) return;
 
     const el = document.createElement('label');
     el.className = 'radio-item';
     el.id = 'wcls_' + wid + '_' + cls.id;
     el.innerHTML = `<input type="radio" name="wcls_${wid}"><div class="radio-dot"></div>
-      <div class="radio-item-text">
-        <div class="rit-label">${cls.name}</div>
-        <div class="rit-sub">${cls.time} · ${getGradeMinLabel(cls.gradeMin)}</div>
-      </div>`;
+      <div><div class="rit-label">${cls.name}</div>
+      <div class="rit-sub">${cls.time} · ${getGradeMinLabel(cls.gradeMin)}</div></div>`;
     el.onclick = function() { selectWeekClass(wid, wi, cls.id); };
     grid.appendChild(el);
   });
-
   container.appendChild(grid);
 }
 
 function selectWeekClass(wid, wi, classId) {
-  // Update UI
   document.querySelectorAll('[id^="wcls_' + wid + '_"]').forEach(e => e.classList.remove('selected'));
   document.getElementById('wcls_' + wid + '_' + classId).classList.add('selected');
-
   weekSelections[wid].classId    = classId;
   weekSelections[wid].scheduleId = null;
   weekSelections[wid].addons     = [];
-
-  buildWeekSchedule(wid, wi, classId);
   document.getElementById('waddons_' + wid).style.display = 'none';
-  document.getElementById('waddons_' + wid).innerHTML     = '';
+  document.getElementById('waddons_' + wid).innerHTML = '';
+  buildWeekSchedule(wid, wi, classId);
   updateTuitionSummary();
 }
 
 function buildWeekSchedule(wid, wi, classId) {
   const cls = CAMP_CLASSES.find(c => c.id === classId);
   if (!cls) return;
-
   const container = document.getElementById('wschedule_' + wid);
   container.innerHTML = '';
   container.style.display = 'block';
-
   const label = document.createElement('div');
-  label.className = 'section-label';
-  label.textContent = 'Select Schedule';
+  label.className = 'section-label'; label.textContent = 'Select Schedule';
   container.appendChild(label);
-
   const grid = document.createElement('div');
   grid.className = 'radio-grid three';
-
   cls.schedules.forEach(function(sch) {
     const el = document.createElement('label');
     el.className = 'radio-item';
     el.id = 'wsch_' + wid + '_' + sch.id;
     el.innerHTML = `<input type="radio" name="wsch_${wid}"><div class="radio-dot"></div>
-      <div class="radio-item-text">
-        <div class="rit-label">${sch.label} — $${sch.price}</div>
-        <div class="rit-sub">${sch.sub}</div>
-      </div>`;
-    el.onclick = function() { selectWeekSchedule(wid, wi, sch.id); };
+      <div><div class="rit-label">${sch.label} — $${sch.price}</div>
+      <div class="rit-sub">${sch.sub}</div></div>`;
+    el.onclick = function() { selectWeekSchedule(wid, wi, sch.id, classId); };
     grid.appendChild(el);
   });
-
   container.appendChild(grid);
-
-  // Addons for Portfolio Prep
-  if (cls.addons) buildWeekAddons(wid, wi, cls);
 }
 
-function selectWeekSchedule(wid, wi, scheduleId) {
-  const classId = weekSelections[wid].classId;
+function selectWeekSchedule(wid, wi, scheduleId, classId) {
   document.querySelectorAll('[id^="wsch_' + wid + '_"]').forEach(e => e.classList.remove('selected'));
   document.getElementById('wsch_' + wid + '_' + scheduleId).classList.add('selected');
   weekSelections[wid].scheduleId = scheduleId;
 
-  // Show addons if PP
-  if (classId === 'pp') {
-    document.getElementById('waddons_' + wid).style.display = 'block';
+  // Show PP addons
+  if (classId === 'pp') buildWeekAddons(wid, wi);
+  else {
+    document.getElementById('waddons_' + wid).style.display = 'none';
+    document.getElementById('waddons_' + wid).innerHTML = '';
   }
-  updateTuitionSummary();
+
   document.getElementById('wprice_' + wid).textContent = '$' + calcWeekTuition(wid);
+  updateTuitionSummary();
 }
 
-function buildWeekAddons(wid, wi, cls) {
+function buildWeekAddons(wid, wi) {
   const container = document.getElementById('waddons_' + wid);
   container.innerHTML = '';
 
-  const eligibleAddons = cls.addons.filter(function(a) {
-    if (a.weeksOnly && !a.weeksOnly.includes(wi)) return false;
-    if (gradeIndex >= 0 && gradeIndex < a.gradeMin) return false;
-    return true;
-  });
+  const eligible = PP_ADDONS.filter(a =>
+    verifiedData.gradeException || gradeIndex < 0 || gradeIndex >= a.gradeMin
+  );
+  if (eligible.length === 0) { container.style.display = 'none'; return; }
 
-  if (eligibleAddons.length === 0) return;
-
+  container.style.display = 'block';
   const label = document.createElement('div');
   label.className = 'section-label';
-  label.textContent = 'Add-on Classes (Invitation Only)';
+  label.textContent = 'Add-on Class (Invitation Only)';
   container.appendChild(label);
 
   const note = document.createElement('p');
   note.style.cssText = 'font-size:12px;color:var(--warm-gray);margin-bottom:12px;line-height:1.6;';
-  note.textContent = 'These classes are included in your Portfolio Prep. tuition. An invitation code is required.';
+  note.textContent = 'Included in Portfolio Prep. tuition. Invitation code required.';
   container.appendChild(note);
 
-  eligibleAddons.forEach(function(addon) {
+  eligible.forEach(function(addon) {
     const wrap = document.createElement('div');
-    wrap.style.marginBottom = '10px';
 
     const row = document.createElement('label');
     row.className = 'checkbox-item';
     row.id = 'wadd_' + wid + '_' + addon.id;
-    row.innerHTML = `<input type="checkbox">
-      <div class="check-icon"></div>
-      <div>
-        <div style="font-weight:600;font-size:13px;">${addon.name}</div>
-        <div style="font-size:11px;opacity:.65;margin-top:2px;">${addon.time}<br>${addon.sub}</div>
-      </div>`;
-    row.onclick = function(e) {
-      e.preventDefault();
-      toggleAddon(wid, addon.id, row);
-    };
+    row.innerHTML = `<input type="checkbox"><div class="check-icon"></div>
+      <div><div style="font-weight:600;font-size:13px;">${addon.name}</div>
+      <div style="font-size:11px;opacity:.65;margin-top:2px;">${addon.time} · ${addon.sub}</div></div>`;
+    row.onclick = function(e) { e.preventDefault(); toggleAddon(wid, addon.id, row); };
     wrap.appendChild(row);
 
-    // Invite field
-    const inviteWrap = document.createElement('div');
-    inviteWrap.className = 'invite-field';
-    inviteWrap.id = 'invwrap_' + wid + '_' + addon.id;
-    inviteWrap.style.display = 'none';
-    inviteWrap.innerHTML = `
+    const invWrap = document.createElement('div');
+    invWrap.className = 'invite-field';
+    invWrap.id = 'invwrap_' + wid + '_' + addon.id;
+    invWrap.style.display = 'none';
+    invWrap.innerHTML = `
       <label class="field-label">🔑 Invitation Code</label>
       <input type="text" id="inv_${wid}_${addon.id}" placeholder="Enter code" autocomplete="off"
         oninput="checkInviteCode('${wid}','${addon.id}')"/>
       <div class="invite-valid"   id="invok_${wid}_${addon.id}">✓ Code accepted</div>
       <div class="invite-invalid" id="invno_${wid}_${addon.id}">✗ Invalid code</div>`;
-    wrap.appendChild(inviteWrap);
+    wrap.appendChild(invWrap);
     container.appendChild(wrap);
   });
 }
 
 function toggleAddon(wid, addonId, el) {
   el.classList.toggle('checked');
-  const icon = el.querySelector('.check-icon');
+  el.querySelector('.check-icon').textContent = el.classList.contains('checked') ? '✓' : '';
   const invWrap = document.getElementById('invwrap_' + wid + '_' + addonId);
-
   if (el.classList.contains('checked')) {
-    icon.textContent = '✓';
     invWrap.style.display = 'block';
-    // Don't add to addons yet — wait for code verification
   } else {
-    icon.textContent = '';
     invWrap.style.display = 'none';
     document.getElementById('inv_' + wid + '_' + addonId).value = '';
     document.getElementById('invok_' + wid + '_' + addonId).style.display = 'none';
@@ -912,15 +1078,12 @@ function toggleAddon(wid, addonId, el) {
 }
 
 function checkInviteCode(wid, addonId) {
-  const code  = document.getElementById('inv_' + wid + '_' + addonId).value.trim().toUpperCase();
-  const okEl  = document.getElementById('invok_' + wid + '_' + addonId);
-  const noEl  = document.getElementById('invno_' + wid + '_' + addonId);
-
+  const code = document.getElementById('inv_' + wid + '_' + addonId).value.trim().toUpperCase();
+  const okEl = document.getElementById('invok_' + wid + '_' + addonId);
+  const noEl = document.getElementById('invno_' + wid + '_' + addonId);
   if (code === INVITE_CODE) {
     okEl.style.display = 'block'; noEl.style.display = 'none';
-    if (!weekSelections[wid].addons.includes(addonId)) {
-      weekSelections[wid].addons.push(addonId);
-    }
+    if (!weekSelections[wid].addons.includes(addonId)) weekSelections[wid].addons.push(addonId);
   } else if (code.length >= 6) {
     noEl.style.display = 'block'; okEl.style.display = 'none';
     weekSelections[wid].addons = weekSelections[wid].addons.filter(a => a !== addonId);
@@ -929,25 +1092,73 @@ function checkInviteCode(wid, addonId) {
   }
 }
 
+// ─── Tuition Summary ──────────────────────────────────────────
+function updateTuitionSummary() {
+  const container = document.getElementById('tuitionRows');
+  const grandEl   = document.getElementById('grandTotal');
+  const summary   = document.getElementById('tuitionSummary');
+
+  const selWeeks = WEEKS.filter(w => weekSelections[w.id]);
+  const selBundles = Object.keys(blenderBundles);
+  if (selWeeks.length === 0 && selBundles.length === 0) { summary.style.display = 'none'; return; }
+  summary.style.display = 'block';
+
+  let rows = selWeeks.map(function(w) {
+    const sel = weekSelections[w.id];
+    const cls = CAMP_CLASSES.find(c => c.id === sel.classId);
+    const sch = cls && cls.schedules.find(s => s.id === sel.scheduleId);
+    const amt = sch ? sch.price : 0;
+    const addStr = sel.addons.length ? ' <span style="font-size:11px;color:var(--clay);">+PP.Digital</span>' : '';
+    return `<div class="ts-row"><span class="ts-label">${w.label} — ${cls ? cls.name : '–'} ${sch ? sch.label : ''}${addStr}</span><span style="font-weight:600;color:var(--ink);">$${amt}</span></div>`;
+  });
+
+  selBundles.forEach(function(bid) {
+    const b = BLENDER_BUNDLES.find(x => x.id === bid);
+    if (b) rows.push(`<div class="ts-row"><span class="ts-label">${b.name} — Weeks 7, 8 & 9</span><span style="font-size:12px;color:var(--sage);font-weight:600;">Included</span></div>`);
+  });
+
+  container.innerHTML = rows.join('');
+  grandEl.textContent = '$' + calcGrandTotal();
+}
+
 // ─── Page 2 → 3 ───────────────────────────────────────────────
 function nextFromCamp() {
-  const selected = WEEKS.filter(w => isWeekSelected(w.id));
-  if (selected.length === 0) { showAlert('alert2','error','Please select at least one week.'); return; }
+  const selWeeks   = WEEKS.filter(w => weekSelections[w.id]);
+  const selBundles = Object.keys(blenderBundles);
 
-  // Validate all selected weeks have class + schedule
-  for (const w of selected) {
+  if (selWeeks.length === 0 && selBundles.length === 0) {
+    showAlert('alert2','error','Please select at least one week or program.'); return;
+  }
+
+  // Validate weeks
+  for (const w of selWeeks) {
     const sel = weekSelections[w.id];
-    if (!sel.classId)   { showAlert('alert2','error','Please select a class for ' + w.label + '.'); return; }
-    if (!sel.scheduleId){ showAlert('alert2','error','Please select a schedule for ' + w.label + '.'); return; }
-    // Check addon invite codes
-    const cls = CAMP_CLASSES.find(c => c.id === sel.classId);
-    if (cls && cls.addons) {
-      for (const addon of cls.addons) {
+    if (!sel.classId)    { showAlert('alert2','error','Please select a class for ' + w.label + '.'); return; }
+    if (!sel.scheduleId) { showAlert('alert2','error','Please select a schedule for ' + w.label + '.'); return; }
+    // Validate PP addon invites
+    if (sel.classId === 'pp') {
+      for (const addon of PP_ADDONS) {
         const el = document.getElementById('wadd_' + w.id + '_' + addon.id);
         if (el && el.classList.contains('checked') && !sel.addons.includes(addon.id)) {
           showAlert('alert2','error','Please enter a valid invitation code for ' + addon.name + ' in ' + w.label + '.'); return;
         }
       }
+    }
+  }
+
+  // Validate blender bundles: invite verified
+  for (const bid of Object.keys(blenderBundles)) {
+    if (!blenderBundles[bid].inviteVerified) {
+      const b = BLENDER_BUNDLES.find(x => x.id === bid);
+      showAlert('alert2','error','Please enter a valid invitation code for ' + (b ? b.name : 'Blender program') + '.'); return;
+    }
+  }
+
+  // Check if blender selected but PP not registered for weeks 7-9
+  if (selBundles.length > 0) {
+    const ppWeeks = ['w7','w8','w9'].filter(wid => weekSelections[wid] && weekSelections[wid].classId === 'pp');
+    if (ppWeeks.length < 3) {
+      showAlert('alert2','error','Blender programs (Weeks 7–9) require Portfolio Prep. to be registered for all 3 weeks (Week 7, 8 & 9).'); return;
     }
   }
 
@@ -959,34 +1170,33 @@ function nextFromCamp() {
 function buildPaymentSummary() {
   const rows    = document.getElementById('paymentSummaryRows');
   const grandEl = document.getElementById('paymentGrandTotal');
-  const selected = WEEKS.filter(w => isWeekSelected(w.id));
+  const selWeeks = WEEKS.filter(w => weekSelections[w.id]);
 
-  rows.innerHTML = selected.map(function(w) {
+  let html = selWeeks.map(function(w) {
     const sel = weekSelections[w.id];
     const cls = CAMP_CLASSES.find(c => c.id === sel.classId);
     const sch = cls && cls.schedules.find(s => s.id === sel.scheduleId);
     const amt = sch ? sch.price : 0;
-    const addonsStr = sel.addons.length
-      ? ' + ' + sel.addons.map(a => a.replace('pp_','')).join(', ') : '';
-    return `<div class="ts-row">
-      <span class="ts-label">${w.label} — ${cls ? cls.name : ''} ${sch ? sch.label : ''}${addonsStr}</span>
-      <span style="font-weight:600;color:var(--ink);">$${amt}</span>
-    </div>`;
+    const addStr = sel.addons.length ? ' + PP.Digital' : '';
+    return `<div class="ts-row"><span class="ts-label">${w.label} — ${cls ? cls.name : ''} ${sch ? sch.label : ''}${addStr}</span><span style="font-weight:600;color:var(--ink);">$${amt}</span></div>`;
   }).join('');
 
+  Object.keys(blenderBundles).forEach(function(bid) {
+    const b = BLENDER_BUNDLES.find(x => x.id === bid);
+    if (b) html += `<div class="ts-row"><span class="ts-label">${b.name} (Wk 7–9)</span><span style="font-size:12px;color:var(--sage);font-weight:600;">Included</span></div>`;
+  });
+
+  rows.innerHTML = html;
   grandEl.textContent = '$' + calcGrandTotal();
 }
 
 // ─── Payment ──────────────────────────────────────────────────
 function selectPayment(method, el) {
   document.querySelectorAll('[name="payment"]').forEach(e => e.closest('.radio-item').classList.remove('selected'));
-  el.classList.add('selected');
-  selectedPayment = method;
+  el.classList.add('selected'); selectedPayment = method;
   ['zelleInfo','checkInfo','cashInfo'].forEach(id => document.getElementById(id).classList.remove('visible'));
-  const map = {Zelle:'zelleInfo', Check:'checkInfo', Cash:'cashInfo'};
-  document.getElementById(map[method]).classList.add('visible');
+  document.getElementById({Zelle:'zelleInfo',Check:'checkInfo',Cash:'cashInfo'}[method]).classList.add('visible');
 }
-
 function nextFromPayment() {
   if (!selectedPayment) { showAlert('alert3','error','Please select a payment method.'); return; }
   document.getElementById('alert3').className = 'alert';
@@ -996,73 +1206,64 @@ function nextFromPayment() {
 
 // ─── Waiver ───────────────────────────────────────────────────
 function toggleAgree(id, row) {
-  const cb = document.getElementById(id);
-  cb.checked = !cb.checked;
+  const cb = document.getElementById(id); cb.checked = !cb.checked;
   row.classList.toggle('checked', cb.checked);
   row.querySelector('.agree-check').textContent = cb.checked ? '✓' : '';
 }
-
 function selectPhoto(val, el) {
   document.querySelectorAll('[name="photo"]').forEach(e => e.closest('.radio-item').classList.remove('selected'));
-  el.classList.add('selected');
-  photoConsent = val;
+  el.classList.add('selected'); photoConsent = val;
 }
 
 // ─── Submit ───────────────────────────────────────────────────
 function submitCamp() {
   const agrees = ['agree1','agree2','agree3','agree4'].every(id => document.getElementById(id).checked);
-  if (!agrees)     { showAlert('alert4','error','Please agree to all policies.'); return; }
+  if (!agrees)      { showAlert('alert4','error','Please agree to all policies.'); return; }
   if (!photoConsent){ showAlert('alert4','error','Please indicate your photo release preference.'); return; }
   const sig = document.getElementById('signature').value.trim();
-  if (!sig)        { showAlert('alert4','error','Please provide your digital signature.'); return; }
+  if (!sig)         { showAlert('alert4','error','Please provide your digital signature.'); return; }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.textContent = 'Submitting…';
 
-  // Build registration details
-  const selectedWeeks = WEEKS.filter(w => isWeekSelected(w.id));
-  const weekDetails = selectedWeeks.map(function(w) {
+  const selWeeks = WEEKS.filter(w => weekSelections[w.id]);
+  const weekDetails = selWeeks.map(function(w) {
     const sel = weekSelections[w.id];
     const cls = CAMP_CLASSES.find(c => c.id === sel.classId);
     const sch = cls && cls.schedules.find(s => s.id === sel.scheduleId);
-    const addons = sel.addons.map(a => {
-      const addonObj = cls.addons && cls.addons.find(x => x.id === a);
-      return addonObj ? addonObj.name : a;
-    });
-    return {
-      week:      w.label,
-      dates:     w.dates,
-      className: cls ? cls.name : '',
-      schedule:  sch ? sch.label + ' (' + sch.sub + ')' : '',
-      time:      cls ? cls.time : '',
-      addons:    addons,
-      tuition:   sch ? sch.price : 0
-    };
+    const addonNames = sel.addons.map(a => { const x = PP_ADDONS.find(p => p.id === a); return x ? x.name : a; });
+    return { week:w.label, dates:w.dates, className:cls?cls.name:'', schedule:sch?sch.label+' ('+sch.sub+')':'', time:cls?cls.time:'', addons:addonNames, tuition:sch?sch.price:0 };
   });
 
+  const bundleDetails = Object.keys(blenderBundles).map(function(bid) {
+    const b = BLENDER_BUNDLES.find(x => x.id === bid);
+    return b ? { name:b.name, weeks:'Week 7, 8 & 9', time:b.time, tuition:0 } : null;
+  }).filter(Boolean);
+
   const data = {
-    studentID:    verifiedData.studentID,
-    studentName:  verifiedData.name,
-    grade:        studentGrade,
-    weekDetails:  weekDetails,
-    totalTuition: calcGrandTotal(),
-    payment:      selectedPayment,
-    photoConsent: photoConsent,
-    signature:    sig
+    studentID:     verifiedData.studentID,
+    studentName:   verifiedData.name,
+    grade:         studentGrade,
+    weekDetails:   weekDetails,
+    bundleDetails: bundleDetails,
+    totalTuition:  calcGrandTotal(),
+    payment:       selectedPayment,
+    photoConsent:  photoConsent,
+    signature:     sig
   };
 
   google.script.run
     .withSuccessHandler(function(res) {
       if (res.success) {
-        // Success screen
         document.getElementById('page4').style.display = 'none';
         document.getElementById('page5').style.display = 'block';
         updateProgress(5);
-        document.getElementById('successWeeks').textContent =
-          selectedWeeks.length + ' week' + (selectedWeeks.length>1?'s':'') + ' registered';
+        const totalWeeks = selWeeks.length + (bundleDetails.length > 0 ? 3 : 0);
+        document.getElementById('successWeeks').textContent = totalWeeks + ' week' + (totalWeeks>1?'s':'') + ' registered';
         document.getElementById('successMsg').innerHTML =
-          '<strong>' + verifiedData.name + '</strong> is registered for Summer Art Camp 2026!<br>' +
-          selectedWeeks.map(w => w.label + ' (' + w.dates + ')').join(' · ');
+          '<strong>' + verifiedData.name + '</strong> is all set for Summer Art Camp 2026!<br>' +
+          selWeeks.map(w => w.label).join(' · ') +
+          (bundleDetails.length ? ' · Blender Wk 7–9' : '');
         window.scrollTo(0,0);
       } else {
         btn.disabled = false; btn.textContent = 'Complete Registration →';
@@ -1079,6 +1280,305 @@ function submitCamp() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && document.getElementById('page1').style.display !== 'none') verifyStudent();
 });
+
+function openEditProfile(e) {
+  e.preventDefault();
+  openEditPage();
+}
+
+// ─── School Data (Edit용) ─────────────────────────────────────
+const E_SCHOOLS = {
+  Pleasanton: {
+    Elementary:["Alisal","Donlon","Fairlands","Hearst","Lydiksen","Mohr","Pleasanton","Valley View"],
+    Middle:["Harvest Park","Hart"], High:["Amador Valley","Foothill"],
+    Private:["Lydiksen Christian","Pleasanton Christian","Valley Christian Elementary","Valley Christian Middle","Valley Christian High","Other Private"]
+  },
+  Dublin: {
+    Elementary:["Dougherty","Dublin","Frederiksen","Green","Jordan","Kolb","Murray","Nielsen"],
+    Middle:["Fallon","Wells"], High:["Dublin","Valley"],
+    Private:["Quarry Lane School","Other Private"]
+  },
+  Livermore: {
+    Elementary:["Arroyo Mocho","Croce","Jackson Avenue","Joe Michell","Junction Avenue","Marylin Avenue","Rancho Las Positas","Sunset","William Mendenhall"],
+    Middle:["Christensen","East Avenue","Granada"], High:["Granada","Livermore"],
+    Private:["Vine Christian","Other Private"]
+  },
+  "San Ramon": {
+    Elementary:["Bollinger Canyon","Coyote Creek","Creekside","Dougherty Valley","Golden View","Hidden Hills","Iron Horse","Montevideo","Pine Valley","Walt Disney"],
+    Middle:["Gale Ranch","Pine Valley","Windemere Ranch"],
+    High:["California","Dougherty Valley","Monte Vista","San Ramon Valley"],
+    Private:["Live Oak","Other Private"]
+  },
+  Danville: {
+    Elementary:["Baldwinwood","Greenbrook","John Baldwin","Los Cerros","Montair","Rancho Romero","Sycamore"],
+    Middle:["Charlotte Wood","Los Cerros"], High:["Monte Vista","San Ramon Valley"],
+    Private:["California High School (Private Track)","Other Private"]
+  }
+};
+
+let editOriginalData = {};
+
+// ─── Edit Page 열기 ───────────────────────────────────────────
+function openEditPage() {
+  // 현재 페이지 숨기기
+  ['page1','page2','page3'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('editSuccessPage').style.display = 'none';
+  document.getElementById('editPage').style.display = 'block';
+
+  document.getElementById('editSubtitle').textContent =
+    'ID: ' + verifiedData.studentID + '  ·  ' + (verifiedData.name || '');
+
+  // 로딩
+  document.getElementById('editSaveBtn').disabled  = true;
+  document.getElementById('editSaveBtn').textContent = 'Loading…';
+
+  google.script.run
+    .withSuccessHandler(function(res) {
+      document.getElementById('editSaveBtn').disabled  = false;
+      document.getElementById('editSaveBtn').textContent = 'Save Changes →';
+      if (res.success) {
+        editOriginalData = res;
+        ePopulateForm(res);
+
+        // ✅ 수정 불가 input/textarea 필드
+        ['e_studentFirst','e_studentLast','e_contactFirst','e_contactLast'].forEach(function(id) {
+          const el = document.getElementById(id);
+          el.readOnly = true;
+          el.style.cssText += ';background:#f0f0f0;color:var(--warm-gray);cursor:not-allowed;';
+        });
+        // ✅ 수정 불가 select 필드
+        ['e_gender','e_grade','e_relationship'].forEach(function(id) {
+          const el = document.getElementById(id);
+          el.disabled = true;
+          el.style.cssText += ';background:#f0f0f0;color:var(--warm-gray);cursor:not-allowed;opacity:1;';
+        });
+        // ✅ 수정 불가 필드 라벨에 lock 표시
+        ['ewrap_studentFirst','ewrap_studentLast','ewrap_gender','ewrap_grade',
+        'ewrap_contactFirst','ewrap_contactLast','ewrap_relationship'].forEach(function(id) {
+          const wrap = document.getElementById(id);
+          const label = wrap.querySelector('label');
+          if (label) {
+            const lock = document.createElement('span');
+            lock.style.cssText = 'font-size:10px;color:var(--warm-gray);margin-left:6px;font-weight:400;text-transform:none;letter-spacing:0;';
+            lock.textContent = '🔒 contact to update';
+            label.appendChild(lock);
+          }
+        });
+
+      } else {
+        showAlert('editAlert','error','Failed to load profile. Please try again.');
+      }
+    })
+    .withFailureHandler(function() {
+      document.getElementById('editSaveBtn').disabled  = false;
+      document.getElementById('editSaveBtn').textContent = 'Save Changes →';
+      showAlert('editAlert','error','Something went wrong.');
+    })
+    .getStudentData(verifiedData.studentID, verifiedData.contactEmail);
+
+  window.scrollTo(0,0);
+}
+
+function closeEditPage() {
+  document.getElementById('editPage').style.display = 'none';
+  // 원래 있던 페이지로 복귀
+  if (verifiedData) {
+    document.getElementById('page2').style.display = 'block';
+  } else {
+    document.getElementById('page1').style.display = 'block';
+  }
+  window.scrollTo(0,0);
+}
+
+function closeEditSuccess() {
+  document.getElementById('editSuccessPage').style.display = 'none';
+  document.getElementById('page2').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+// ─── Form 채우기 ──────────────────────────────────────────────
+function ePopulateForm(d) {
+  // ✅ 먼저 모든 changed 상태 초기화
+  document.querySelectorAll('[id^="ewrap_"]').forEach(function(el) {
+    el.classList.remove('efield-changed');
+  });
+  eSetVal('e_studentFirst',  d.firstName);
+  eSetVal('e_studentLast',   d.lastName);
+  eSetSel('e_gender',        d.gender);
+  eSetSel('e_grade',         d.grade);
+  eSetSel('e_schoolCity',    d.schoolCity);
+  eUpdateSchools();
+  setTimeout(function() {
+    const sel   = document.getElementById('e_schoolName');
+    const other = document.getElementById('e_schoolNameOther');
+    let matched = false;
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].text === d.schoolName) { sel.selectedIndex = i; matched = true; break; }
+    }
+    if (!matched && d.schoolName) {
+      document.getElementById('e_schoolSelectWrap').style.display = 'none';
+      other.style.display = 'block'; other.value = d.schoolName;
+    }
+  }, 100);
+  eSetVal('e_contactFirst',   d.contactFirst);
+  eSetVal('e_contactLast',    d.contactLast);
+  eSetSel('e_relationship',   d.relationship);
+  eSetVal('e_contactPhone',   d.contactPhone);
+  eSetVal('e_contactEmail',   d.contactEmail);
+  eSetVal('e_addFirst',       d.addFirst);
+  eSetVal('e_addLast',        d.addLast);
+  eSetSel('e_addRelationship',d.addRel);
+  eSetVal('e_addPhone',       d.addPhone);
+  eSetVal('e_addEmail',       d.addEmail);
+  eSetVal('e_medicalInfo',    d.allergyDetail);
+  eSetVal('e_studentNeeds',   d.supportDetail);
+  eSetVal('e_comments',       d.comments);
+}
+
+function eSetVal(id, val) { const el = document.getElementById(id); if (el) el.value = val || ''; }
+function eSetSel(id, val) {
+  const el = document.getElementById(id); if (!el || !val) return;
+  for (let i = 0; i < el.options.length; i++) {
+    if (el.options[i].value === val || el.options[i].text === val) { el.selectedIndex = i; return; }
+  }
+}
+
+function eUpdateSchools() {
+  const city  = document.getElementById('e_schoolCity').value;
+  const sel   = document.getElementById('e_schoolName');
+  const other = document.getElementById('e_schoolNameOther');
+  const wrap  = document.getElementById('e_schoolSelectWrap');
+  if (!city) return;
+  if (city === 'Other') { wrap.style.display='none'; other.style.display='block'; return; }
+  wrap.style.display='block'; other.style.display='none';
+  sel.innerHTML = '<option value="">Select school…</option>';
+  const citySchools = E_SCHOOLS[city] || {};
+  ['Elementary','Middle','High','Private'].forEach(function(level) {
+    if (!citySchools[level] || !citySchools[level].length) return;
+    const group = document.createElement('optgroup');
+    group.label = level === 'Private' ? '— Private Schools —' : level;
+    citySchools[level].forEach(function(s) {
+      const opt = document.createElement('option');
+      opt.textContent = level === 'Private' ? s : s + ' ' + level;
+      group.appendChild(opt);
+    });
+    sel.appendChild(group);
+  });
+}
+
+function eMarkChanged(wrapId) {
+  document.getElementById(wrapId).classList.add('efield-changed');
+}
+
+// ─── Save ─────────────────────────────────────────────────────
+function saveEditProfile() {
+  const btn = document.getElementById('editSaveBtn');
+  const first = document.getElementById('e_studentFirst').value.trim();
+  const last  = document.getElementById('e_studentLast').value.trim();
+  const gender= document.getElementById('e_gender').value;
+  const grade = document.getElementById('e_grade').value;
+  const city  = document.getElementById('e_schoolCity').value;
+  const cFirst= document.getElementById('e_contactFirst').value.trim();
+  const cLast = document.getElementById('e_contactLast').value.trim();
+  const rel   = document.getElementById('e_relationship').value;
+  const phone = document.getElementById('e_contactPhone').value.trim();
+  const email = document.getElementById('e_contactEmail').value.trim();
+
+  
+  if (!city)           { showAlert('editAlert','error','Please select a school city.'); return; }
+  if (!cFirst||!cLast) { showAlert('editAlert','error',"Please enter the contact's full name."); return; }
+  if (!rel)            { showAlert('editAlert','error','Please select the relationship.'); return; }
+  if (!phone)          { showAlert('editAlert','error','Please enter a phone number.'); return; }
+  if (!email||!email.includes('@')) { showAlert('editAlert','error','Please enter a valid email.'); return; }
+
+  const schoolCity = city;
+  const schoolName = city === 'Other'
+    ? document.getElementById('e_schoolNameOther').value.trim()
+    : document.getElementById('e_schoolName').value;
+
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  const data = {
+    studentID:      verifiedData.studentID,
+    studentFirst:   editOriginalData.firstName,  // ← 원본값 고정
+    studentLast:    editOriginalData.lastName,   // ← 원본값 고정
+    gender:         editOriginalData.gender,     // ← 원본값 고정
+    grade:          editOriginalData.grade,      // ← 원본값 고정
+    schoolCity,
+    schoolName,
+    contactFirst:   editOriginalData.contactFirst,
+    contactLast:    editOriginalData.contactLast,
+    relationship:   editOriginalData.relationship,
+    contactPhone:   phone,
+    contactEmail:   email,
+    addFirst:       document.getElementById('e_addFirst').value.trim(),
+    addLast:        document.getElementById('e_addLast').value.trim(),
+    addRelationship:document.getElementById('e_addRelationship').value,
+    addPhone:       document.getElementById('e_addPhone').value.trim(),
+    addEmail:       document.getElementById('e_addEmail').value.trim(),
+    medicalInfo:    document.getElementById('e_medicalInfo').value.trim(),
+    studentNeeds:   document.getElementById('e_studentNeeds').value.trim(),
+    comments:       document.getElementById('e_comments').value.trim()
+  };
+
+  google.script.run
+    .withSuccessHandler(function(res) {
+      btn.disabled = false; btn.textContent = 'Save Changes →';
+      if (res.success) {
+        // verifiedData 업데이트
+        verifiedData.name         = first + ' ' + last;
+        verifiedData.grade        = grade;
+        verifiedData.contactEmail = email;
+        // welcome banner 업데이트
+        document.getElementById('welcomeName').textContent    = verifiedData.name;
+        document.getElementById('avatarInitial').textContent  = verifiedData.name.charAt(0).toUpperCase();
+        const infoLines = [];
+        if (grade) infoLines.push('Grade: ' + grade);
+        if (verifiedData.lastClass) infoLines.push('Last class: ' + verifiedData.lastClass);
+        const infoEl = document.getElementById('verifiedStudentInfo');
+        if (infoEl) { infoEl.textContent = infoLines.join('  ·  '); }
+        // 성공 화면
+        document.getElementById('editPage').style.display = 'none';
+        document.getElementById('editSuccessPage').style.display = 'block';
+        document.getElementById('editSuccessMsg').textContent =
+          first + ' ' + last + "'s profile has been successfully updated.";
+        window.scrollTo(0,0);
+      } else {
+        showAlert('editAlert','error', res.error || 'Update failed. Please try again.');
+      }
+    })
+    .withFailureHandler(function() {
+      btn.disabled = false; btn.textContent = 'Save Changes →';
+      showAlert('editAlert','error','Something went wrong. Please try again.');
+    })
+    .updateStudentData(data);
+}
+
+// ─── iframe 높이 자동 조절 ────────────────────────────────────
+function sendHeight() {
+  var h = Math.max(
+    document.body.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.scrollHeight
+  );
+  window.parent.postMessage({ type: 'resize', height: h }, '*');
+}
+
+var _mutationObserver = new MutationObserver(function() {
+  sendHeight();
+});
+_mutationObserver.observe(document.body, {
+  childList: true, subtree: true, attributes: true
+});
+
+window.addEventListener('load', function() {
+  sendHeight();
+  setTimeout(sendHeight, 500);
+  setTimeout(sendHeight, 1500);
+});
+
 </script>
 </body>
 </html>
